@@ -1,0 +1,11 @@
+recursive-include QGAT/QTLdb *.bed
+recursive-include QGAT/QTLdb *.bed.gz
+recursive-include QGAT/QTLdb *.gff
+recursive-include QGAT/QTLdb *.gff.gz
+recursive-include QGAT/input/qtl *.tsv
+recursive-include QGAT/input/annotate_ensembl *.tsv
+recursive-include QGAT/input/annotate_NCBI *.tsv
+recursive-include QGAT/output/qtl *.tsv
+recursive-include QGAT/output/annotate *.tsv
+recursive-include QGAT/output/annotate *.txt
+recursive-include QGAT/output/plot *.png
