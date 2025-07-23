@@ -1,0 +1,8 @@
+QGAT Annotation Summary
+=======================
+Input file: input.tsv
+GTF file: Bos_grunniens.LU_Bosgru_v3.0.114.chr.gtf
+Output file: annotate_output_ensemble.tsv
+Total input regions: 29
+Total overlapping genes: 11295
+Total unique genes: 321
