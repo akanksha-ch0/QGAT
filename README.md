@@ -74,7 +74,7 @@ For NCBI GTF format, add:
     QGAT annotate -i path/to/input.tsv --gtf path/to/ncbi_genome.gtf --ncbi -o path/to/annotated.tsv
 
 Arguments:
-- `-i`, `--input`     : Input TSV with `chromosome`, `start`, `end` columns.
+- `-i`, `--input`     : Input (TXT,TSV and CSV) with `chromosome`, `start`, `end` columns.
 - `--gtf`             : GTF file path (Ensembl or NCBI format).
 - `--ncbi`            : Optional flag to indicate NCBI format.
 - `-o`, `--output`    : Output file with gene annotations.
