@@ -50,7 +50,7 @@ Find overlapping QTLs for genomic regions using BED files.
     QGAT qtl -i path/to/input.tsv --species goat -o path/to/output_qtls.tsv
 
 Arguments:
-- `-i`, `--input`     : Input file (TSV) with columns: `chromosome`, `start`, `end`.
+- `-i`, `--input`     : Input file (TXT,TSV and CSV) with columns: `chromosome`, `start`, `end`.
 - `--species`         : One of `cattle`, `goat`, `sheep`, `pig`, `chicken`, `horse`.
 - `-o`, `--output`    : Output TSV file.
 
