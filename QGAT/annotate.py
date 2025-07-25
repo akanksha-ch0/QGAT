@@ -92,7 +92,7 @@ def annotate_regions(input_file, gtf_df, is_ncbi=False):
                 f"  Input file chromosomes: {sorted(input_chrs)}\n"
                 f"  GTF file chromosomes: {sorted(gtf_chrs)}\n"
                 f"  → Possible cause: input uses plain numbers (1,2,3) but GTF uses NCBI IDs (e.g., NC_037328.1).\n"
-                f"  → Fix: Adjust input chromosome names to match GTF, or use --ncbi if not already.\n"
+                f"  → Fix: Adjust input chromosome names to match GTF, or use -ncbi if not already.\n"
             )
         else:
             print(" No overlapping genes found but chromosome names DO match.")
