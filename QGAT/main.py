@@ -160,18 +160,18 @@ def main():
 
     qtl_parser = subparsers.add_parser("qtl", help="Find overlapping QTLs")
     qtl_parser.add_argument("-i", "--input", required=True, help="Input TSV file with regions")
-    qtl_parser.add_argument("--species", required=True, choices=["cattle", "chicken", "goat", "sheep", "horse", "pig"], help="Animal species")
+    qtl_parser.add_argument("-species", required=True, choices=["cattle", "chicken", "goat", "sheep", "horse", "pig"], help="Animal species")
     qtl_parser.add_argument("-o", "--output", required=True, help="Output TSV file")
-    qtl_parser.add_argument("--trait", action="store_true", help="Use GFF file to extract trait-level QTLs")
+    qtl_parser.add_argument("-trait", action="store_true", help="Use GFF file to extract trait-level QTLs")
 
     annot_parser = subparsers.add_parser("annotate", help="Annotate genomic regions using GTF")
     annot_parser.add_argument("-i", "--input", required=True, help="Input TSV file with regions")
-    annot_parser.add_argument("--gtf", required=True, help="GTF file for gene annotation")
+    annot_parser.add_argument("-gtf", required=True, help="GTF file for gene annotation")
     annot_parser.add_argument("-o", "--output", required=True, help="Output TSV file with gene annotations")
-    annot_parser.add_argument("--ncbi", action="store_true", help="Indicate if the GTF file is from NCBI format")
+    annot_parser.add_argument("-ncbi", action="store_true", help="Indicate if the GTF file is from NCBI format")
 
     plot_parser = subparsers.add_parser("plot", help="Plot trait distribution from GFF-based QTL extraction")
-    plot_parser.add_argument("-i", "--input", required=True, help="TSV file output from --trait-based QTL extraction")
+    plot_parser.add_argument("-i", "--input", required=True, help="TSV file output from -trait-based QTL extraction")
     plot_parser.add_argument("-o", "--output", required=True, help="Output plot image file (PNG)")
 
     args = parser.parse_args()
