@@ -63,6 +63,18 @@ If you have a GFF file (with trait information), use:
 - The output includes full trait names and significance (P-value) from the GFF.
 - All columns from the GFF entry will be retained in the output.
 
+
+### Subcommand: Plot
+
+Plot trait frequency (only for GFF-based QTL search using `--trait`):
+
+    QGAT plot -i path/to/trait_qtl_output.tsv -o path/to/trait_plot.png
+
+Arguments:
+- `-i`, `--input`     : Output file from `--trait` QTL run.
+- `-o`, `--output`    : Output image file (e.g. PNG).
+
+
 ### Subcommand: Annotate
 
 Annotate input regions with overlapping genes from a GTF file.
@@ -79,22 +91,14 @@ Arguments:
 - `--ncbi`            : Optional flag to indicate NCBI format.
 - `-o`, `--output`    : Output file with gene annotations.
 
-### Subcommand: Plot
-
-Plot trait frequency (only for GFF-based QTL search using `--trait`):
-
-    QGAT plot -i path/to/trait_qtl_output.tsv -o path/to/trait_plot.png
-
-Arguments:
-- `-i`, `--input`     : Output file from `--trait` QTL run.
-- `-o`, `--output`    : Output image file (e.g. PNG).
 
 Output Files
 ------------
 - `output_qtls.tsv`     : Overlapping QTLs from BED-based QTLdb.
 - `trait_qtl_output.tsv`: GFF-based trait-overlap results.
-- `annotated.tsv`       : Gene annotations from GTF file.
 - `trait_plot.png`      : Trait frequency bar plot.
+- `annotated.tsv`       : Gene annotations from GTF files.
+
 
 Important Notes
 ---------------
