@@ -6,7 +6,7 @@ QGAT is a Python-based (version 3.0 or higher) command-line tool designed to ide
 Features
 --------
 - QTL overlap detection from Animal QTLdb (for six species).
-- Support for both BED-based and GFF-based QTL lookup (`--trait` flag).
+- Support for both BED-based and GFF-based QTL lookup (`-trait` flag).
 - Gene annotation using user-supplied GTF files.
 - Support for both Ensembl and NCBI GTF formats.
 - Automatic GTF sorting and formatting.
@@ -35,7 +35,7 @@ Open your terminal, navigate to the downloaded project folder, and install the p
 
 Note:
 -----
-The `QTLdb/` folder containing species-specific `.bed` files is included in the package and required for QTL search (except when using `--trait` which uses GFF).
+The `QTLdb/` folder containing species-specific `.bed` files is included in the package and required for QTL search (except when using `-trait` which uses GFF).
 
 The `input/` and `output/` folders are also included for organizing example data and results.
 
@@ -47,7 +47,7 @@ Use `QGAT --help` to see available commands and flags.
 
 Find overlapping QTLs for genomic regions using BED files.
 
-    QGAT qtl -i path/to/input.tsv --species goat -o path/to/output_qtls.tsv
+    QGAT qtl -i path/to/input.tsv -species goat -o path/to/output_qtls.tsv
 
 Arguments:
 - `-i`, `--input`     : Input file (TXT, TSV and CSV) with columns: `chromosome`, `start`, `end`.
@@ -58,7 +58,7 @@ Arguments:
 
 If you have a GFF file (with trait information), use:
 
-    QGAT qtl -i path/to/input.tsv --species cattle --trait -o path/to/trait_qtl_output.tsv
+    QGAT qtl -i path/to/input.tsv -species cattle -trait -o path/to/trait_qtl_output.tsv
 
 - The output includes full trait names and significance (P-value) from the GFF.
 - All columns from the GFF entry will be retained in the output.
@@ -66,12 +66,12 @@ If you have a GFF file (with trait information), use:
 
 ### Subcommand: Plot
 
-Plot trait frequency (only for GFF-based QTL search using `--trait`):
+Plot trait frequency (only for GFF-based QTL search using `-trait`):
 
     QGAT plot -i path/to/trait_qtl_output.tsv -o path/to/trait_plot.png
 
 Arguments:
-- `-i`, `--input`     : Output file from `--trait` QTL run.
+- `-i`, `--input`     : Output file from `-trait` QTL run.
 - `-o`, `--output`    : Output image file (e.g. PNG).
 
 
@@ -79,16 +79,16 @@ Arguments:
 
 Annotate input regions with overlapping genes from a GTF file.
 
-    QGAT annotate -i path/to/input.tsv --gtf path/to/genome.gtf -o path/to/annotated.tsv
+    QGAT annotate -i path/to/input.tsv -gtf path/to/genome.gtf -o path/to/annotated.tsv
 
 For NCBI GTF format, add:
 
-    QGAT annotate -i path/to/input.tsv --gtf path/to/ncbi_genome.gtf --ncbi -o path/to/annotated.tsv
+    QGAT annotate -i path/to/input.tsv -gtf path/to/ncbi_genome.gtf -ncbi -o path/to/annotated.tsv
 
 Arguments:
 - `-i`, `--input`     : Input (TXT, TSV and CSV) with `chromosome`, `start`, `end` columns.
-- `--gtf`             : GTF file path (Ensembl or NCBI format).
-- `--ncbi`            : Optional flag to indicate NCBI format.
+- `-gtf`              : GTF file path (Ensembl or NCBI format).
+- `-ncbi`             : Optional flag to indicate NCBI format.
 - `-o`, `--output`    : Output file with gene annotations.
 
 
