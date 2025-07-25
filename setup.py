@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="QGAT",
     version="0.1",
-    author="Akanksha Choudhary",
+    authors="Akanksha Choudhary, A. Kumar, S.F. Ahmad, R.K. Ghandham, N.H. Mohan",
     description="QGAT: QTL and Gene Annotation Tool",
     packages=find_packages(),
     include_package_data=True,
