@@ -37,7 +37,7 @@ Note:
 -----
 The `QTLdb/` folder containing species-specific `.bed` files is included in the package and required for QTL search (except when using `-trait` which uses GFF).
 
-The `input/` and `output/` folders are also included for organizing example data and results.
+The `input/` and `output/` folders are also included for organizing example data and results. The input file can be in  TXT, TSV and CSV format, containing genomic regions specified by chromosome, start, and end coordinates.
 
 Usage
 -----
@@ -51,7 +51,7 @@ Find overlapping QTLs for genomic regions using BED files.
 
 Arguments:
 - `-i`, `--input`     : Input file (TXT, TSV and CSV) with columns: `chromosome`, `start`, `end`.
-- `--species`         : One of `cattle`, `goat`, `sheep`, `pig`, `chicken`, `horse`.
+- `-species`         : One of `cattle`, `goat`, `sheep`, `pig`, `chicken`, `horse`.
 - `-o`, `--output`    : Output TSV file.
 
 ### Trait-Specific QTL Search (from GFF)
