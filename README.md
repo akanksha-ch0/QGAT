@@ -56,7 +56,7 @@ Arguments:
 
 ### Trait-Specific QTL Search (from GFF)
 
-If you have a GFF file (with trait information), use:
+use: --trait flag
 
     QGAT qtl -i path/to/input.tsv -species cattle -trait -o path/to/trait_qtl_output.tsv
 
