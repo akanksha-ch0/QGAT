@@ -1491,10 +1491,71 @@ function updateOntologyView() {
   }
 }
 
-function launchGProfiler() {
+function showToast(title, message, type = "info", duration = 6000) {
+  let container = document.getElementById("qgatToastContainer");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "qgatToastContainer";
+    container.className = "qgat-toast-container";
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `qgat-toast qgat-toast--${type}`;
+
+  const iconMap = {
+    success: "✓",
+    info: "ℹ",
+    warning: "⚠️",
+    error: "✕"
+  };
+  const icon = iconMap[type] || "ℹ";
+
+  const iconEl = document.createElement("div");
+  iconEl.className = "qgat-toast__icon";
+  iconEl.textContent = icon;
+
+  const contentEl = document.createElement("div");
+  contentEl.className = "qgat-toast__content";
+
+  const titleEl = document.createElement("div");
+  titleEl.className = "qgat-toast__title";
+  titleEl.textContent = title;
+
+  const descEl = document.createElement("div");
+  descEl.className = "qgat-toast__desc";
+  descEl.textContent = message;
+
+  contentEl.appendChild(titleEl);
+  contentEl.appendChild(descEl);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "qgat-toast__close";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.innerHTML = "&times;";
+  closeBtn.addEventListener("click", () => toast.remove());
+
+  toast.appendChild(iconEl);
+  toast.appendChild(contentEl);
+  toast.appendChild(closeBtn);
+
+  container.appendChild(toast);
+
+  if (duration > 0) {
+    setTimeout(() => {
+      toast.style.transition = "opacity 0.3s, transform 0.3s";
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(10px)";
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
+}
+
+function launchGProfiler(e) {
   const genes = getOntologyGeneSymbols();
   if (!genes.length) {
-    alert("Please enter or load at least one gene symbol first.");
+    showToast("No Genes Found", "Please enter or load at least one gene symbol first.", "warning", 5000);
     return;
   }
   const spKey = (state.selectedAnimal || "cattle").toLowerCase();
@@ -1502,61 +1563,130 @@ function launchGProfiler() {
   const orgInfo = ORGANISM_CONFIG[matchedOrg] || ORGANISM_CONFIG.btaurus;
 
   const url = `https://biit.cs.ut.ee/gprofiler/gost?organism=${orgInfo.gprofiler}&query=${encodeURIComponent(genes.join(" "))}`;
-  window.open(url, "_blank");
+  
+  showToast(
+    `Launching g:Profiler for ${orgInfo.name}`,
+    `Submitting ${genes.length} candidate genes with automatic Ensembl mapping...`,
+    "info",
+    5000
+  );
+
+  const win = window.open(url, "_blank");
+  if (!win || win.closed || typeof win.closed === "undefined") {
+    window.location.href = url;
+  }
 }
 
-function launchDAVID() {
+function launchDAVID(e) {
   const genes = getOntologyGeneSymbols();
-  if (!genes.length) {
-    alert("Please enter or load at least one gene symbol first.");
-    return;
+  const davidUrl = "https://davidbioinformatics.nih.gov/summary.jsp";
+
+  if (genes.length) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
+    }
+    showToast(
+      `Copied ${genes.length} Genes to Clipboard!`,
+      "Opening DAVID Portal... In DAVID: 1. Paste in Box 1 (Gene List) → 2. Select 'OFFICIAL_GENE_SYMBOL' → 3. Select 'Gene List' & click Submit List.",
+      "success",
+      8000
+    );
+  } else {
+    showToast(
+      "Opening DAVID Portal...",
+      "Tip: Enter or load candidate gene symbols to analyze enrichment in DAVID.",
+      "info",
+      5000
+    );
   }
-  navigator.clipboard.writeText(genes.join("\n")).then(() => {
-    alert(`Copied ${genes.length} gene symbols to your clipboard!\n\nOpening DAVID Bioinformatics Resources...\n1. In DAVID, paste your genes into Box 1.\n2. Select "OFFICIAL_GENE_SYMBOL" in Box 2.\n3. Select "Gene List" in Box 3 and click Submit List.`);
-    window.open("https://david.ncifcrf.gov/summary.jsp", "_blank");
-  }).catch(() => {
-    window.open("https://david.ncifcrf.gov/summary.jsp", "_blank");
-  });
+
+  if (!e || !e.currentTarget || e.currentTarget.tagName !== "A") {
+    const win = window.open(davidUrl, "_blank");
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      window.location.href = davidUrl;
+    }
+  }
 }
 
-function launchPanther() {
+function launchPanther(e) {
   const genes = getOntologyGeneSymbols();
-  if (!genes.length) {
-    alert("Please enter or load at least one gene symbol first.");
-    return;
+  const pantherUrl = "https://www.pantherdb.org/tools/compareToRefList.jsp";
+
+  if (genes.length) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
+    }
+    showToast(
+      `Copied ${genes.length} Genes to Clipboard!`,
+      "Opening PANTHER... Paste your gene symbols into the query box and select your organism.",
+      "success",
+      7000
+    );
+  } else {
+    showToast(
+      "Opening PANTHER...",
+      "Paste your candidate genes and select your species for overrepresentation analysis.",
+      "info",
+      5000
+    );
   }
-  navigator.clipboard.writeText(genes.join("\n")).then(() => {
-    alert(`Copied ${genes.length} gene symbols to clipboard!\n\nOpening PANTHER Classification System...\nPaste your genes into the query box and select your organism.`);
-    window.open("http://www.pantherdb.org/tools/compareToRefList.jsp", "_blank");
-  }).catch(() => {
-    window.open("http://www.pantherdb.org/tools/compareToRefList.jsp", "_blank");
-  });
+
+  if (!e || !e.currentTarget || e.currentTarget.tagName !== "A") {
+    const win = window.open(pantherUrl, "_blank");
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      window.location.href = pantherUrl;
+    }
+  }
 }
 
-function launchShinyGO() {
+function launchShinyGO(e) {
   const genes = getOntologyGeneSymbols();
-  if (!genes.length) {
-    alert("Please enter or load at least one gene symbol first.");
-    return;
+  const shinyGoUrl = "https://bioinformatics.sdstate.edu/go/";
+
+  if (genes.length) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
+    }
+    showToast(
+      `Copied ${genes.length} Genes to Clipboard!`,
+      "Opening ShinyGO v0.80... Paste your gene symbols and select your species for interactive graphs.",
+      "success",
+      7000
+    );
+  } else {
+    showToast(
+      "Opening ShinyGO v0.80...",
+      "Paste your candidate gene list and explore interactive enrichment diagrams.",
+      "info",
+      5000
+    );
   }
-  navigator.clipboard.writeText(genes.join("\n")).then(() => {
-    alert(`Copied ${genes.length} gene symbols to clipboard!\n\nOpening ShinyGO v0.80...\nPaste your gene list and choose species.`);
-    window.open("http://bioinformatics.sdstate.edu/go/", "_blank");
-  }).catch(() => {
-    window.open("http://bioinformatics.sdstate.edu/go/", "_blank");
-  });
+
+  if (!e || !e.currentTarget || e.currentTarget.tagName !== "A") {
+    const win = window.open(shinyGoUrl, "_blank");
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      window.location.href = shinyGoUrl;
+    }
+  }
 }
 
 function copyCitation(toolKey, btnEl) {
   const text = CITATION_DATA[toolKey];
   if (!text) return;
-  navigator.clipboard.writeText(text).then(() => {
-    if (btnEl) {
-      const orig = btnEl.textContent;
-      btnEl.textContent = "✓ Citation Copied!";
-      setTimeout(() => { btnEl.textContent = orig; }, 2000);
-    }
-  });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      if (btnEl) {
+        const orig = btnEl.textContent;
+        btnEl.textContent = "✓ Citation Copied!";
+        setTimeout(() => { btnEl.textContent = orig; }, 2000);
+      }
+      showToast("Citation Copied", "Manuscript citation copied to clipboard.", "success", 3000);
+    }).catch(() => {
+      showToast("Citation Ready", text, "info", 6000);
+    });
+  } else {
+    showToast("Citation Ready", text, "info", 6000);
+  }
 }
 
 
