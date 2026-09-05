@@ -1,7 +1,9 @@
 QGAT: QTL and Gene Annotation Tool
 ==================================
 
-QGAT is a Python-based (version 3.7 or higher) command-line tool designed to identify Quantitative Trait Loci (QTLs) and annotate genomic regions with gene information. It supports major livestock species and allows users to input genomic coordinates and obtain QTL or gene overlaps using internal or user-provided data.
+**Web Application (Live)**: [https://akanksha-ch0.github.io/QGAT/](https://akanksha-ch0.github.io/QGAT/)
+
+QGAT is a Python-based (version 3.7 or higher) command-line tool and interactive web application designed to identify Quantitative Trait Loci (QTLs) and annotate genomic regions with gene information. It supports major livestock species and allows users to input genomic coordinates and obtain QTL or gene overlaps using internal or user-provided data.
 
 Features
 --------
