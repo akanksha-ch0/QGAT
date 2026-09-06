@@ -679,8 +679,15 @@ input, textarea, select {
   right: -16px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--slate-lighter);
+  z-index: 2;
+}
+.step__arrow svg {
+  display: block;
+  stroke: var(--slate-lighter);
 }
 
 /* ============================================================

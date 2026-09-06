@@ -1566,11 +1566,11 @@ function openQTLDrawer(qtl) {
       <div class="drawer-section__title">Literature &amp; External Database Links</div>
       <div class="drawer-info-row">
         <span class="drawer-info-row__label">PubMed Reference</span>
-        <span class="drawer-info-row__value"><a href="https://pubmed.ncbi.nlm.nih.gov/${qtl.pubmed.replace('PMID:','')}/" target="_blank" style="color:var(--teal); text-decoration:underline; font-weight:600;">${qtl.pubmed} ↗</a></span>
+        <span class="drawer-info-row__value"><a href="https://pubmed.ncbi.nlm.nih.gov/${qtl.pubmed.replace('PMID:','')}/" target="_blank" style="color:var(--teal); text-decoration:underline; font-weight:600; display:inline-flex; align-items:center; gap:4px;"><span>${qtl.pubmed}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></span>
       </div>
       <div class="drawer-info-row">
         <span class="drawer-info-row__label">Animal QTLdb Source</span>
-        <span class="drawer-info-row__value"><a href="https://www.animalgenome.org/cgi-bin/QTLdb/index" target="_blank" style="color:var(--teal); text-decoration:underline;">animalgenome.org/QTLdb ↗</a></span>
+        <span class="drawer-info-row__value"><a href="https://www.animalgenome.org/cgi-bin/QTLdb/index" target="_blank" style="color:var(--teal); text-decoration:underline; display:inline-flex; align-items:center; gap:4px;"><span>animalgenome.org/QTLdb</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></span>
       </div>
     </div>
   `;
@@ -1727,7 +1727,7 @@ function launchDAVID(e) {
   }
   showToast(
     `Copied ${genes.length} Genes to Clipboard!`,
-    "Opening DAVID Portal... In DAVID: 1. Paste in Box 1 (Gene List) → 2. Select 'OFFICIAL_GENE_SYMBOL' → 3. Select 'Gene List' & click Submit List.",
+    "Opening DAVID Portal... In DAVID: 1. Paste in Box 1 (Gene List) -> 2. Select 'OFFICIAL_GENE_SYMBOL' -> 3. Select 'Gene List' & click Submit List.",
     "success",
     8000
   );

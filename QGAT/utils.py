@@ -31,7 +31,7 @@ COLUMN_ALIASES = {
 
 
 def _build_alias_map():
-    """Return a dict mapping every alias (lower-cased) → canonical name."""
+    """Return a dict mapping every alias (lower-cased) -> canonical name."""
     alias_map = {}
     for canonical, aliases in COLUMN_ALIASES.items():
         for alias in aliases:
