@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QGAT — Quantitative Trait Loci &amp; Gene Annotation Tool</title>
   <meta name="description" content="QGAT: Quantitative Trait Loci and Gene Annotation Tool. Modern, interactive bioinformatics platform for genomic region annotation, Animal QTLdb integration, and candidate gene discovery across livestock species.">
-  <link rel="stylesheet" href="css/style.css?v=2.3">
+  <link rel="stylesheet" href="css/style.css?v=2.4">
 </head>
 <body>
 
@@ -71,7 +71,10 @@
   <div class="features">
     <div class="container">
       <div class="features__header">
-        <div class="section-label">✦ Core Capabilities</div>
+        <div class="section-label">
+          <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Core Capabilities
+        </div>
         <h2 class="section-title">Engineered for Precision Livestock Genomics</h2>
         <p class="section-subtitle">
           From single SNP marker windows to high-throughput chromosome QTL mapping — everything you need for comprehensive functional annotation.
@@ -79,32 +82,78 @@
       </div>
       <div class="features__grid">
         <div class="feature-card animate-on-scroll">
-          <div class="feature-card__icon feature-card__icon--teal">📍</div>
+          <div class="feature-card__icon feature-card__icon--teal" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
           <h3 class="feature-card__title">Animal QTLdb Integration</h3>
           <p class="feature-card__text">Detect overlapping QTLs across Cattle, Goat, Sheep, Pig, Chicken, and Horse using curated BED and GFF trait databases.</p>
         </div>
         <div class="feature-card animate-on-scroll">
-          <div class="feature-card__icon feature-card__icon--purple">🧬</div>
+          <div class="feature-card__icon feature-card__icon--purple" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 15c6.667-6 13.333 0 20-6"/>
+              <path d="m9 22 3-3"/>
+              <path d="m15 2-3 3"/>
+              <path d="m12 6 3 3"/>
+              <path d="m12 18-3-3"/>
+              <path d="m6 9 3 3"/>
+              <path d="m18 15-3-3"/>
+              <path d="m2 9c6.667 6 13.333 0 20 6"/>
+            </svg>
+          </div>
           <h3 class="feature-card__title">GTF Gene Annotation</h3>
           <p class="feature-card__text">Annotate genomic intervals with Ensembl and NCBI GTF annotations, gene biotypes, descriptions, and feature filters.</p>
         </div>
         <div class="feature-card animate-on-scroll">
-          <div class="feature-card__icon feature-card__icon--sky">⚡</div>
+          <div class="feature-card__icon feature-card__icon--sky" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"/>
+              <line x1="4" y1="10" x2="4" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12" y2="3"/>
+              <line x1="20" y1="21" x2="20" y2="16"/>
+              <line x1="20" y1="12" x2="20" y2="3"/>
+              <line x1="1" y1="14" x2="7" y2="14"/>
+              <line x1="9" y1="8" x2="15" y2="8"/>
+              <line x1="17" y1="16" x2="23" y2="16"/>
+            </svg>
+          </div>
           <h3 class="feature-card__title">Position &amp; Window Search</h3>
           <p class="feature-card__text">Have single variant positions (Chr:Pos)? Define flanking windows (e.g. ±10kb, ±25kb, ±50kb, ±100kb) with the <code>--window</code> flag.</p>
         </div>
         <div class="feature-card animate-on-scroll">
-          <div class="feature-card__icon feature-card__icon--green">📐</div>
+          <div class="feature-card__icon feature-card__icon--green" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
           <h3 class="feature-card__title">Overlap Statistics</h3>
           <p class="feature-card__text">Compute exact base-pair overlap lengths, overlap percentages, and TSS distances to prioritize significant associations.</p>
         </div>
         <div class="feature-card animate-on-scroll">
-          <div class="feature-card__icon feature-card__icon--amber">🗺️</div>
+          <div class="feature-card__icon feature-card__icon--amber" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
           <h3 class="feature-card__title">Interactive Genome Tracks</h3>
           <p class="feature-card__text">Explore genes, exon structures, QTL spans, and signal intensity tracks with zoom, pan, and hover tooltips.</p>
         </div>
         <div class="feature-card animate-on-scroll">
-          <div class="feature-card__icon feature-card__icon--rose">🧪</div>
+          <div class="feature-card__icon feature-card__icon--rose" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/>
+              <path d="M8.5 2h7"/>
+              <path d="M7 16h10"/>
+            </svg>
+          </div>
           <h3 class="feature-card__title">Gene Ontology &amp; Enrichment</h3>
           <p class="feature-card__text">Connect candidate genes with gold-standard functional suites including DAVID, g:Profiler, and PANTHER with publication-ready citations.</p>
         </div>
@@ -173,7 +222,10 @@
 
       <!-- Header -->
       <div class="workspace__header">
-        <div class="section-label">⬡ Annotation Workspace</div>
+        <div class="section-label">
+          <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Annotation Workspace
+        </div>
         <h2 class="section-title">What would you like to annotate?</h2>
         <p class="section-subtitle" style="margin:0 auto;">Choose your analysis type and provide your genomic data.</p>
       </div>
@@ -181,7 +233,7 @@
       <!-- Type selector -->
       <div class="type-selector" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); max-width: 960px;">
         <div class="type-card selected" data-type="gene" id="typeGene">
-          <div class="type-card__check">✓</div>
+          <div class="type-card__check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div class="type-card__icon type-card__icon--gene">
             <svg class="lively-icon" viewBox="0 0 48 48" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 6C14 18 34 18 34 30C34 42 14 42 14 42" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
@@ -199,10 +251,10 @@
             </svg>
           </div>
           <h3 class="type-card__title">Gene Annotation</h3>
-          <p class="type-card__desc">Coordinates + GTF File ➔ <strong>Get List of Genes</strong></p>
+          <p class="type-card__desc">Coordinates + GTF File &rarr; <strong>Get List of Genes</strong></p>
         </div>
         <div class="type-card" data-type="qtl" id="typeQTL">
-          <div class="type-card__check">✓</div>
+          <div class="type-card__check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div class="type-card__icon type-card__icon--qtl">
             <svg class="lively-icon" viewBox="0 0 48 48" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="24" cy="24" r="16" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="3 3"/>
@@ -216,10 +268,10 @@
             </svg>
           </div>
           <h3 class="type-card__title">QTL Annotation</h3>
-          <p class="type-card__desc">Coordinates + Select Animal ➔ <strong>Get List of QTLs</strong></p>
+          <p class="type-card__desc">Coordinates + Select Animal &rarr; <strong>Get List of QTLs</strong></p>
         </div>
         <div class="type-card" data-type="combined" id="typeCombined">
-          <div class="type-card__check">✓</div>
+          <div class="type-card__check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div class="type-card__icon type-card__icon--combined">
             <svg class="lively-icon" viewBox="0 0 48 48" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M26 4L11 25H23L20 44L37 21H25L29 4Z" fill="#ffffff" stroke="#fef08a" stroke-width="1.5" stroke-linejoin="round"/>
@@ -231,7 +283,7 @@
             </svg>
           </div>
           <h3 class="type-card__title">Combined Analysis</h3>
-          <p class="type-card__desc">Coordinates + Animal + GTF ➔ <strong>Genes &amp; QTLs Combined</strong></p>
+          <p class="type-card__desc">Coordinates + Animal + GTF &rarr; <strong>Genes &amp; QTLs Combined</strong></p>
         </div>
       </div>
 
@@ -250,10 +302,12 @@
             <label class="form-label">Choose Coordinate Input Format</label>
             <div class="format-toggle" id="geneFormatToggle">
               <button type="button" class="format-toggle__btn active" data-format="range">
-                <span>📏</span> Range: Chromosome, Start, End
+                <svg class="inline-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+                Range: Chromosome, Start, End
               </button>
               <button type="button" class="format-toggle__btn" data-format="position">
-                <span>🎯</span> Position-Only: Chr, Pos + Flanking Window
+                <svg class="inline-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Position-Only: Chr, Pos + Flanking Window
               </button>
             </div>
           </div>
@@ -284,12 +338,19 @@
 
           <div class="form-group">
             <div class="upload-zone" id="geneCoordsUploadZone">
-              <div class="upload-zone__icon">📂</div>
+              <div class="upload-zone__icon" aria-hidden="true">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
               <div class="upload-zone__text">Drag &amp; drop coordinate file here (.tsv, .csv, .bed, .txt)</div>
               <div class="upload-zone__hint">Auto-detects separators &amp; column headers</div>
               <input type="file" accept=".txt,.csv,.tsv,.bed" hidden id="geneCoordsFileInput">
               <div class="upload-zone__file-info" id="geneCoordsFileInfo">
-                <span>📄</span> <span id="geneCoordsFileName"></span>
+                <svg class="inline-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span id="geneCoordsFileName"></span>
               </div>
             </div>
           </div>
@@ -337,7 +398,9 @@
 
           <div style="text-align:right; margin-top:2rem;">
             <button class="btn btn--primary btn--lg" id="runGeneAnnotation">
-              🧬 Get List of Genes →
+              <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="m9 22 3-3"/><path d="m15 2-3 3"/><path d="m12 6 3 3"/><path d="m12 18-3-3"/><path d="m6 9 3 3"/><path d="m18 15-3-3"/><path d="m2 9c6.667 6 13.333 0 20 6"/></svg>
+              <span>Get List of Genes</span>
+              <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </button>
           </div>
         </div>
@@ -355,7 +418,11 @@
 
           <!-- Notice banner highlighting pre-loaded livestock files -->
           <div class="qtl-notice-banner">
-            <div class="qtl-notice-banner__icon">✨</div>
+            <div class="qtl-notice-banner__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+              </svg>
+            </div>
             <div>
               <strong>Animal QTLdb files are pre-loaded in QGAT!</strong> Complete BED &amp; GFF databases for Cattle, Goat, Sheep, Pig, Chicken, and Horse are already bundled — no external database download needed.
             </div>
@@ -422,10 +489,12 @@
             <label class="form-label">2. Choose Coordinate Input Format</label>
             <div class="format-toggle" id="qtlFormatToggle">
               <button type="button" class="format-toggle__btn active" data-format="range">
-                <span>📏</span> Range: Chromosome, Start, End
+                <svg class="inline-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+                Range: Chromosome, Start, End
               </button>
               <button type="button" class="format-toggle__btn" data-format="position">
-                <span>🎯</span> Position-Only: Chr, Pos + Flanking Window
+                <svg class="inline-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Position-Only: Chr, Pos + Flanking Window
               </button>
             </div>
           </div>
@@ -456,12 +525,19 @@
 
           <div class="form-group">
             <div class="upload-zone" id="qtlUploadZone">
-              <div class="upload-zone__icon">📂</div>
+              <div class="upload-zone__icon" aria-hidden="true">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
               <div class="upload-zone__text">Drag &amp; drop your region file here (.tsv, .csv, .bed, .txt)</div>
               <div class="upload-zone__hint">Auto-matches chromosome names (1 vs Chr1 vs chr1)</div>
               <input type="file" accept=".csv,.tsv,.bed,.txt" hidden id="qtlFileInput">
               <div class="upload-zone__file-info" id="qtlFileInfo">
-                <span>📄</span> <span id="qtlFileName"></span>
+                <svg class="inline-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span id="qtlFileName"></span>
               </div>
             </div>
           </div>
@@ -478,7 +554,9 @@
 
           <div style="text-align:right; margin-top:2rem;">
             <button class="btn btn--solid btn--lg" id="runQTLAnnotation" style="background:var(--lavender); border-color:var(--lavender);">
-              📍 Get List of QTLs →
+              <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Get List of QTLs</span>
+              <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </button>
           </div>
         </div>
@@ -520,10 +598,12 @@
             <label class="form-label">Coordinate Format</label>
             <div class="format-toggle" id="combinedFormatToggle">
               <button type="button" class="format-toggle__btn active" data-format="range">
-                <span>📏</span> Range: Chr, Start, End
+                <svg class="inline-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+                Range: Chr, Start, End
               </button>
               <button type="button" class="format-toggle__btn" data-format="position">
-                <span>🎯</span> Position: Chr, Pos + Flanking Window
+                <svg class="inline-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Position: Chr, Pos + Flanking Window
               </button>
             </div>
           </div>
@@ -543,7 +623,9 @@
 
           <div style="text-align:right; margin-top:2rem;">
             <button class="btn btn--primary btn--lg" id="runCombinedAnnotation">
-              ⚡ Get Genes &amp; QTLs Combined →
+              <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Get Genes &amp; QTLs Combined</span>
+              <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </button>
           </div>
         </div>
@@ -560,7 +642,10 @@
   <div class="workspace">
     <div class="container">
       <div class="workspace__header">
-        <div class="section-label">🧪 Functional Annotation &amp; Pathway Profiling</div>
+        <div class="section-label">
+          <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>
+          Functional Annotation &amp; Pathway Profiling
+        </div>
         <h2 class="section-title">Gene Ontology &amp; Functional Enrichment</h2>
         <p class="section-subtitle" style="margin:0 auto 2rem;">
           Enrich candidate genes identified by QGAT with leading peer-reviewed functional profiling suites (DAVID, g:Profiler, PANTHER, ShinyGO). Launch one-click live analyses and copy publication-ready manuscript citations.
@@ -583,19 +668,24 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button type="button" class="btn btn--sm btn--primary" id="btnLoadOntologyExample">
-              🧪 Load Example Gene Set
+              <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/></svg>
+              <span>Load Example Gene Set</span>
             </button>
             <button type="button" class="btn btn--sm btn--outline" id="btnCopySymbols">
-              📋 Copy Gene Symbols
+              <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copy Gene Symbols</span>
             </button>
             <button type="button" class="btn btn--sm btn--outline" id="btnCopyEnsembl">
-              📋 Copy Ensembl IDs
+              <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copy Ensembl IDs</span>
             </button>
             <button type="button" class="btn btn--sm btn--outline" id="btnDownloadGeneList">
-              💾 Download Gene List (.txt)
+              <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download Gene List (.txt)</span>
             </button>
             <button type="button" class="btn btn--sm btn--ghost" id="btnClearOntologyGenes">
-              ✕ Clear
+              <svg class="btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span>Clear</span>
             </button>
           </div>
           <div id="ontologyGeneCountBadge" class="table-badge table-badge--teal" style="font-size:0.82rem;">
@@ -617,17 +707,22 @@
                 <div class="ontology-tool-card__inst">University of Tartu • ELIXIR Core Resource</div>
               </div>
             </div>
-            <span class="table-badge table-badge--green">1-Click Live Launch ⚡</span>
+            <span class="table-badge table-badge--green">
+              <svg class="inline-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              1-Click Live Launch
+            </span>
           </div>
           <p class="ontology-tool-card__desc">
             Gene list functional profiling engine with direct Ensembl support for all 6 livestock genomes. Computes Gene Ontology (GO:BP, GO:MF, GO:CC), KEGG, Reactome, WikiPathways, and regulatory TF motifs with multiple testing correction.
           </p>
           <div class="ontology-tool-card__actions">
             <button type="button" class="btn btn--primary btn--sm" id="btnLaunchGProfiler">
-              🚀 Launch in g:Profiler ↗
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Launch in g:Profiler</span>
             </button>
             <button type="button" class="btn btn--outline btn--sm" data-copy-citation="gprofiler">
-              📄 Copy Citation
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              <span>Copy Citation</span>
             </button>
           </div>
           <div class="citation-box">
@@ -655,10 +750,12 @@
           </p>
           <div class="ontology-tool-card__actions">
             <a href="https://davidbioinformatics.nih.gov/summary.jsp" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm" id="btnLaunchDAVID">
-              🚀 Open DAVID Portal ↗
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Open DAVID Portal</span>
             </a>
             <button type="button" class="btn btn--outline btn--sm" data-copy-citation="david">
-              📄 Copy Citation
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              <span>Copy Citation</span>
             </button>
           </div>
           <div class="citation-box">
@@ -686,10 +783,12 @@
           </p>
           <div class="ontology-tool-card__actions">
             <a href="https://www.pantherdb.org/tools/compareToRefList.jsp" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm" id="btnLaunchPanther">
-              🚀 Open PANTHER Portal ↗
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Open PANTHER Portal</span>
             </a>
             <button type="button" class="btn btn--outline btn--sm" data-copy-citation="panther">
-              📄 Copy Citation
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              <span>Copy Citation</span>
             </button>
           </div>
           <div class="citation-box">
@@ -717,10 +816,12 @@
           </p>
           <div class="ontology-tool-card__actions">
             <a href="https://bioinformatics.sdstate.edu/go/" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm" id="btnLaunchShinyGO">
-              🚀 Open ShinyGO Portal ↗
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Open ShinyGO Portal</span>
             </a>
             <button type="button" class="btn btn--outline btn--sm" data-copy-citation="shinygo">
-              📄 Copy Citation
+              <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              <span>Copy Citation</span>
             </button>
           </div>
           <div class="citation-box">
@@ -745,24 +846,36 @@
     <div class="container">
 
       <div class="results__header">
-        <div class="section-label">📊 Dashboard</div>
+        <div class="section-label">
+          <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          Results &amp; Dashboard
+        </div>
         <h2 class="section-title">Annotation Results</h2>
         <p class="section-subtitle">Comprehensive analysis of your genomic regions.</p>
       </div>
 
       <!-- Results Empty State Banner (visible when no results loaded) -->
       <div class="results-empty-banner" id="resultsEmptyBanner" style="background: linear-gradient(135deg, rgba(13,148,136,0.06), rgba(99,102,241,0.06)); border: 1px dashed var(--teal); border-radius: var(--radius-lg); padding: 2.5rem 1.5rem; text-align: center; margin-bottom: 2rem;">
-        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📊</div>
+        <div class="results-empty-icon" style="margin-bottom: 1rem;" aria-hidden="true">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="floating-svg">
+            <rect width="18" height="18" x="3" y="3" rx="2"/>
+            <path d="M3 9h18"/>
+            <path d="M9 21V9"/>
+            <circle cx="15" cy="15" r="2.5" stroke="var(--purple)"/>
+          </svg>
+        </div>
         <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem;">No Annotation Results Yet</h3>
         <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.25rem; font-size: 0.92rem; line-height: 1.6;">
           Execute an annotation in the <strong>Workspace</strong> with your custom genomic coordinates, or click below to load the pre-configured <strong>Example Livestock Dataset</strong> to explore genes, Animal QTLdb traits, and tracks.
         </p>
         <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
           <button type="button" class="btn btn--primary" id="btnLoadExampleInResults">
-            🧪 Load Example Dataset
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/></svg>
+            <span>Load Example Dataset</span>
           </button>
           <button type="button" class="btn btn--outline" data-nav="annotate">
-            Open Annotate Workspace →
+            <span>Open Annotate Workspace</span>
+            <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
       </div>
@@ -770,15 +883,18 @@
       <!-- Results Sub-Navigation Tabs -->
       <div class="results-nav">
         <button type="button" class="results-nav-btn active" id="tabBtnGenes" data-results-tab="genes">
-          <span>🧬</span> List of Genes
+          <svg class="tab-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="m9 22 3-3"/><path d="m15 2-3 3"/><path d="m12 6 3 3"/><path d="m12 18-3-3"/><path d="m6 9 3 3"/><path d="m18 15-3-3"/><path d="m2 9c6.667 6 13.333 0 20 6"/></svg>
+          <span>List of Genes</span>
           <span class="results-nav-badge" id="genesCountBadge">0</span>
         </button>
         <button type="button" class="results-nav-btn" id="tabBtnQTLs" data-results-tab="qtls">
-          <span>📍</span> List of QTLs (Animal QTLdb)
+          <svg class="tab-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>List of QTLs (Animal QTLdb)</span>
           <span class="results-nav-badge" id="qtlsCountBadge">0</span>
         </button>
         <button type="button" class="results-nav-btn" id="tabBtnBrowser" data-results-tab="browser">
-          <span>🗺️</span> Interactive Genome Tracks
+          <svg class="tab-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Interactive Genome Tracks</span>
         </button>
       </div>
 
@@ -790,25 +906,65 @@
         <div class="summary-cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--teal"></div>
-            <div class="summary-card__icon">🧬</div>
+            <div class="summary-card__icon summary-card__icon--teal" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 15c6.667-6 13.333 0 20-6"/>
+                <path d="m9 22 3-3"/>
+                <path d="m15 2-3 3"/>
+                <path d="m12 6 3 3"/>
+                <path d="m12 18-3-3"/>
+                <path d="m6 9 3 3"/>
+                <path d="m18 15-3-3"/>
+                <path d="m2 9c6.667 6 13.333 0 20 6"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statTotalGenes" data-count="0">0</div>
             <div class="summary-card__label">Genes Identified</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--green"></div>
-            <div class="summary-card__icon">🔬</div>
+            <div class="summary-card__icon summary-card__icon--green" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 18h8"/>
+                <path d="M3 22h18"/>
+                <path d="m14 22 3-3 3 3"/>
+                <circle cx="12" cy="6" r="2"/>
+                <path d="M18 18a6 6 0 0 0-6-6v-1"/>
+                <path d="m9.5 7.5 4-4a1.41 1.41 0 0 1 2 0l2 2a1.41 1.41 0 0 1 0 2l-4 4"/>
+                <path d="m7 12 3 3"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statCodingGenes" data-count="0">0</div>
             <div class="summary-card__label">Protein Coding</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--purple"></div>
-            <div class="summary-card__icon">📜</div>
+            <div class="summary-card__icon summary-card__icon--purple" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 20c4-2 7-6 7-11a5 5 0 1 1 10 0c0 5-3 9-7 11"/>
+                <path d="M7 17l4-2"/>
+                <path d="M9 13l4-2"/>
+                <path d="M11 9h4"/>
+                <circle cx="16" cy="6" r="1.5" fill="currentColor"/>
+                <circle cx="4" cy="20" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statGtfFeatures" data-count="0">0</div>
             <div class="summary-card__label">lncRNA / Non-coding</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--amber"></div>
-            <div class="summary-card__icon">🎯</div>
+            <div class="summary-card__icon summary-card__icon--amber" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="6"/>
+                <circle cx="12" cy="12" r="2"/>
+                <line x1="12" y1="2" x2="12" y2="4"/>
+                <line x1="12" y1="20" x2="12" y2="22"/>
+                <line x1="2" y1="12" x2="4" y2="12"/>
+                <line x1="20" y1="12" x2="22" y2="12"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statCandidateGenes" data-count="0">0</div>
             <div class="summary-card__label">Key Candidate Genes</div>
           </div>
@@ -818,13 +974,24 @@
         <div class="results-table-container">
           <div class="table-toolbar">
             <div class="table-search">
-              <span class="table-search__icon">🔍</span>
+              <span class="table-search__icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
               <input type="text" class="table-search__input" placeholder="Search gene symbol, ID, biotype, function..." id="genesSearchInput">
             </div>
             <div class="table-actions">
-              <button class="btn btn--sm btn--primary" id="btnGoToOntology">🧪 Gene Ontology (DAVID / g:Profiler) →</button>
-              <button class="btn btn--sm btn--outline" id="exportGenesCSV">Export Genes (CSV)</button>
-              <button class="btn btn--sm btn--outline" id="exportGenesTSV">Export Genes (TSV)</button>
+              <button class="btn btn--sm btn--primary" id="btnGoToOntology">
+                <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/></svg>
+                <span>Gene Ontology (DAVID / g:Profiler) →</span>
+              </button>
+              <button class="btn btn--sm btn--outline" id="exportGenesCSV">
+                <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Genes (CSV)</span>
+              </button>
+              <button class="btn btn--sm btn--outline" id="exportGenesTSV">
+                <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Genes (TSV)</span>
+              </button>
             </div>
           </div>
           <div style="overflow-x:auto;">
@@ -862,25 +1029,50 @@
         <div class="summary-cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--purple"></div>
-            <div class="summary-card__icon">📍</div>
+            <div class="summary-card__icon summary-card__icon--purple" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statTotalQTLs" data-count="0">0</div>
             <div class="summary-card__label">Overlapping QTLs</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--sky"></div>
-            <div class="summary-card__icon">🏷️</div>
+            <div class="summary-card__icon summary-card__icon--sky" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+                <circle cx="7" cy="7" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statQtlTraits" data-count="0">0</div>
             <div class="summary-card__label">Trait Classes</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--teal"></div>
-            <div class="summary-card__icon">🐂</div>
+            <div class="summary-card__icon summary-card__icon--teal" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 4c1 2 2 4 4 4s3-2 3-5"/>
+                <path d="M19 4c-1 2-2 4-4 4s-3-2-3-5"/>
+                <path d="M7 9c0 5 2 9 5 9s5-4 5-9"/>
+                <circle cx="9.5" cy="12.5" r="1" fill="currentColor"/>
+                <circle cx="14.5" cy="12.5" r="1" fill="currentColor"/>
+                <path d="M10.5 15.5c.5.5 2.5.5 3 0"/>
+              </svg>
+            </div>
             <div class="summary-card__value" id="statAnimalSpecies">Cattle</div>
             <div class="summary-card__label">Animal Species</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--amber"></div>
-            <div class="summary-card__icon">📚</div>
+            <div class="summary-card__icon summary-card__icon--amber" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+              </svg>
+            </div>
             <div class="summary-card__value">AnimalQTLdb</div>
             <div class="summary-card__label">Database Source</div>
           </div>
@@ -890,12 +1082,20 @@
         <div class="results-table-container">
           <div class="table-toolbar">
             <div class="table-search">
-              <span class="table-search__icon">🔍</span>
+              <span class="table-search__icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
               <input type="text" class="table-search__input" placeholder="Search QTL ID, trait name, trait class..." id="qtlsSearchInput">
             </div>
             <div class="table-actions">
-              <button class="btn btn--sm btn--outline" id="exportQTLsCSV">Export QTLs (CSV)</button>
-              <button class="btn btn--sm btn--outline" id="exportQTLsTSV">Export QTLs (TSV)</button>
+              <button class="btn btn--sm btn--outline" id="exportQTLsCSV">
+                <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export QTLs (CSV)</span>
+              </button>
+              <button class="btn btn--sm btn--outline" id="exportQTLsTSV">
+                <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export QTLs (TSV)</span>
+              </button>
             </div>
           </div>
           <div style="overflow-x:auto;">
@@ -933,9 +1133,15 @@
           <div class="genome-viz__header">
             <h3 class="genome-viz__title">Interactive Multi-Track Genome Browser</h3>
             <div class="genome-viz__controls">
-              <button class="btn btn--icon" id="zoomIn" title="Zoom in">+</button>
-              <button class="btn btn--icon" id="zoomOut" title="Zoom out">−</button>
-              <button class="btn btn--icon" id="resetZoom" title="Reset view">⟲</button>
+              <button class="btn btn--icon" id="zoomIn" title="Zoom in" aria-label="Zoom in">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </button>
+              <button class="btn btn--icon" id="zoomOut" title="Zoom out" aria-label="Zoom out">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </button>
+              <button class="btn btn--icon" id="resetZoom" title="Reset view" aria-label="Reset view">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </button>
             </div>
           </div>
           <canvas class="genome-viz__canvas" id="genomeCanvas"></canvas>
@@ -951,7 +1157,10 @@
         <div class="candidates">
           <div class="candidates__header">
             <div>
-              <div class="section-label">🎯 Prioritization</div>
+              <div class="section-label">
+                <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                Prioritization
+              </div>
               <h2 class="section-title" style="font-size:1.5rem;">Candidate Gene &amp; QTL Insights</h2>
             </div>
           </div>
@@ -972,7 +1181,10 @@
   <div class="docs-page">
     <div class="container">
       <div class="docs-content">
-        <div class="section-label">📖 Documentation</div>
+        <div class="section-label">
+          <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+          Documentation
+        </div>
         <h1 class="section-title">Getting Started with QGAT</h1>
         <p><strong>QGAT (QTL and Gene Annotation Tool)</strong> is a high-performance bioinformatics platform and interactive web application designed to identify Quantitative Trait Loci (QTLs) and annotate genomic regions with gene models, biotypes, and trait associations across major livestock species.</p>
 
@@ -1084,7 +1296,10 @@ cut -f 10 annotated.tsv | sort -u > candidate_genes.txt
   <div class="about-page">
     <div class="container">
       <div class="docs-content">
-        <div class="section-label">ℹ️ About QGAT</div>
+        <div class="section-label">
+          <svg class="section-label__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          About QGAT
+        </div>
         <h1 class="section-title">About QGAT</h1>
         <p>
           <strong>QGAT (QTL and Gene Annotation Tool)</strong> is a dedicated bioinformatics platform developed to empower livestock genomics researchers with fast, accurate, and flexible annotation of QTLs and gene features.
@@ -1157,7 +1372,9 @@ ICAR - National Bureau of Animal Genetic Resources (NBAGR), Karnal, India.</pre>
       <div class="drawer__gene-name" id="drawerGeneName">DGAT1</div>
       <div class="drawer__gene-id" id="drawerGeneId">ENSBTAG00000026356</div>
     </div>
-    <button class="drawer__close" id="drawerClose">✕</button>
+    <button class="drawer__close" id="drawerClose" aria-label="Close drawer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
   <div class="drawer__body" id="drawerBody">
     <!-- Populated dynamically -->
@@ -1167,7 +1384,7 @@ ICAR - National Bureau of Animal Genetic Resources (NBAGR), Karnal, India.</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
-<script src="js/app.js?v=2.3"></script>
+<script src="js/app.js?v=2.4"></script>
 
 </body>
 </html>

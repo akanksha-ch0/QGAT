@@ -383,18 +383,18 @@ const MOCK_QTL_REGIONS = [
 ];
 
 const TRAIT_CATEGORIES = [
-  { name: "Milk Production", icon: "🥛", count: 4521, color: "#0d9488" },
-  { name: "Growth & Body Size", icon: "📈", count: 3287, color: "#8b5cf6" },
-  { name: "Reproduction", icon: "🧬", count: 2456, color: "#f43f5e" },
-  { name: "Disease Resistance", icon: "🛡️", count: 1893, color: "#10b981" },
-  { name: "Milk Composition", icon: "🧈", count: 1654, color: "#f59e0b" },
-  { name: "Meat Quality", icon: "🥩", count: 1432, color: "#06b6d4" },
-  { name: "Heat Tolerance", icon: "🌡️", count: 876, color: "#ef4444" },
-  { name: "Feed Efficiency", icon: "🌾", count: 743, color: "#84cc16" },
-  { name: "Coat & Morphology", icon: "🎨", count: 654, color: "#a855f7" },
-  { name: "Carcass Traits", icon: "📐", count: 1123, color: "#ec4899" },
-  { name: "Immune Response", icon: "🔬", count: 567, color: "#14b8a6" },
-  { name: "Fertility & Calving", icon: "🐄", count: 1245, color: "#6366f1" },
+  { name: "Milk Production", count: 4521, color: "#0d9488" },
+  { name: "Growth & Body Size", count: 3287, color: "#8b5cf6" },
+  { name: "Reproduction", count: 2456, color: "#f43f5e" },
+  { name: "Disease Resistance", count: 1893, color: "#10b981" },
+  { name: "Milk Composition", count: 1654, color: "#f59e0b" },
+  { name: "Meat Quality", count: 1432, color: "#06b6d4" },
+  { name: "Heat Tolerance", count: 876, color: "#ef4444" },
+  { name: "Feed Efficiency", count: 743, color: "#84cc16" },
+  { name: "Coat & Morphology", count: 654, color: "#a855f7" },
+  { name: "Carcass Traits", count: 1123, color: "#ec4899" },
+  { name: "Immune Response", count: 567, color: "#14b8a6" },
+  { name: "Fertility & Calving", count: 1245, color: "#6366f1" },
 ];
 
 const ASSEMBLIES = {
@@ -1049,7 +1049,18 @@ function populateGenesTable(genesToDisplay) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td colspan="10" style="text-align:center; padding:3rem 1rem; color:var(--text-secondary);">
-        <div style="font-size:2rem; margin-bottom:0.5rem;">🧬</div>
+        <div class="results-empty-icon" style="margin-bottom:0.6rem;" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="floating-svg">
+            <path d="M2 15c6.667-6 13.333 0 20-6"/>
+            <path d="m9 22 3-3"/>
+            <path d="m15 2-3 3"/>
+            <path d="m12 6 3 3"/>
+            <path d="m12 18-3-3"/>
+            <path d="m6 9 3 3"/>
+            <path d="m18 15-3-3"/>
+            <path d="m2 9c6.667 6 13.333 0 20 6"/>
+          </svg>
+        </div>
         <div style="font-weight:600; font-size:1rem; color:var(--navy); margin-bottom:0.3rem;">No Genes Loaded</div>
         <div style="font-size:0.88rem;">Run an annotation from the Workspace or click <button type="button" class="btn btn--sm btn--primary load-example-trigger" style="margin-left:6px; padding:3px 10px; font-size:0.75rem;">Load Example Dataset</button></div>
       </td>
@@ -1079,7 +1090,14 @@ function populateGenesTable(genesToDisplay) {
       <td><strong>${gene.overlap_pct || 100}%</strong></td>
       <td><span class="table-mono">${gene.distance_to_tss !== undefined ? gene.distance_to_tss + ' bp' : '0 bp'}</span></td>
       <td><span class="table-mono">${gene.strand || '+'}</span></td>
-      <td><button class="btn btn--sm btn--primary" style="padding:4px 10px; font-size:0.75rem; white-space:nowrap;">🧬 Gene Structure</button></td>
+      <td>
+        <button class="btn btn--sm btn--primary" style="padding:4px 10px; font-size:0.75rem; white-space:nowrap;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px; margin-right:4px;" aria-hidden="true">
+            <path d="M2 15c6.667-6 13.333 0 20-6"/><path d="m9 22 3-3"/><path d="m15 2-3 3"/><path d="m12 6 3 3"/><path d="m12 18-3-3"/><path d="m6 9 3 3"/><path d="m18 15-3-3"/><path d="m2 9c6.667 6 13.333 0 20 6"/>
+          </svg>
+          <span>Gene Structure</span>
+        </button>
+      </td>
     `;
     tr.addEventListener("click", () => openGeneDrawer(gene));
     tbody.appendChild(tr);
@@ -1113,7 +1131,12 @@ function populateQTLsTable(qtlsToDisplay) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td colspan="9" style="text-align:center; padding:3rem 1rem; color:var(--text-secondary);">
-        <div style="font-size:2rem; margin-bottom:0.5rem;">📍</div>
+        <div class="results-empty-icon" style="margin-bottom:0.6rem;" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="floating-svg">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
         <div style="font-weight:600; font-size:1rem; color:var(--navy); margin-bottom:0.3rem;">No QTLs Loaded</div>
         <div style="font-size:0.88rem;">Run an Animal QTLdb query from the Workspace or click <button type="button" class="btn btn--sm btn--primary load-example-trigger" style="margin-left:6px; padding:3px 10px; font-size:0.75rem;">Load Example Dataset</button></div>
       </td>
@@ -1175,7 +1198,17 @@ function populateCandidateCards(candidatesToDisplay) {
   if (!state.hasResults) {
     grid.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem 1rem; background: var(--bg-surface); border: 1px dashed var(--border); border-radius: var(--radius); color: var(--text-secondary);">
-        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+        <div class="results-empty-icon" style="margin-bottom: 0.6rem;" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="floating-svg">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+            <line x1="12" y1="2" x2="12" y2="4"/>
+            <line x1="12" y1="20" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="4" y2="12"/>
+            <line x1="20" y1="12" x2="22" y2="12"/>
+          </svg>
+        </div>
         <div style="font-weight: 600; color: var(--navy); margin-bottom: 0.3rem;">No Candidate Genes Identified Yet</div>
         <div style="font-size: 0.88rem;">Candidate prioritization scores will appear here once an analysis is executed or example data is loaded.</div>
       </div>
@@ -1220,7 +1253,7 @@ function populateCandidateCards(candidatesToDisplay) {
         ${evidence.map(e => `
           <div class="evidence-item">
             <div class="evidence-item__check evidence-item__check--${e.has ? 'yes' : 'no'}">
-              ${e.has ? '✓' : '–'}
+              ${e.has ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' : '&minus;'}
             </div>
             ${e.label}
           </div>
@@ -1295,7 +1328,8 @@ function generateGeneStructureSVG(gene) {
         <g>
           <line x1="${pinX.toFixed(1)}" y1="${(midY - 16).toFixed(1)}" x2="${pinX.toFixed(1)}" y2="${(midY - 30).toFixed(1)}" stroke="#f43f5e" stroke-width="2" />
           <circle cx="${pinX.toFixed(1)}" cy="${(midY - 32).toFixed(1)}" r="5" fill="#f43f5e" />
-          <text x="${pinX.toFixed(1)}" y="${(midY - 40).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="800" fill="#f43f5e">★ ${ex.variant_note || 'QTL'}</text>
+          <circle cx="${pinX.toFixed(1)}" cy="${(midY - 32).toFixed(1)}" r="2" fill="#ffffff" />
+          <text x="${pinX.toFixed(1)}" y="${(midY - 40).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="800" fill="#f43f5e">${ex.variant_note || 'QTL Variant'}</text>
         </g>
       `;
     }
@@ -1367,7 +1401,8 @@ function openGeneDrawer(gene) {
     <div class="drawer-section">
       <div class="gene-structure-header">
         <div class="gene-structure-title">
-          <span>🧬</span> Exon-Intron Gene Architecture
+          <svg class="inline-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="m9 22 3-3"/><path d="m15 2-3 3"/><path d="m12 6 3 3"/><path d="m12 18-3-3"/><path d="m6 9 3 3"/><path d="m18 15-3-3"/><path d="m2 9c6.667 6 13.333 0 20 6"/></svg>
+          Exon-Intron Gene Architecture
         </div>
         <div class="gene-structure-badges">
           <span class="table-badge table-badge--teal">${gene.exon_count || (gene.exons ? gene.exons.length : 1)} Exons</span>
@@ -1427,7 +1462,7 @@ function openGeneDrawer(gene) {
       </p>
       ${gene.key_variant ? `
         <div style="background:rgba(244,63,94,0.06); border:1px solid rgba(244,63,94,0.25); border-radius:var(--radius); padding:10px 12px; margin-top:0.5rem; font-size:0.82rem;">
-          <strong style="color:#e11d48;">★ Causal / Key Diagnostic Variant:</strong><br>
+          <strong style="color:#e11d48; display:inline-flex; align-items:center; gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#e11d48" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Causal / Key Diagnostic Variant:</strong><br>
           <span style="color:var(--navy); font-weight:600;">${gene.key_variant}</span>
         </div>
       ` : ''}
@@ -1605,16 +1640,15 @@ function showToast(title, message, type = "info", duration = 6000) {
   toast.className = `qgat-toast qgat-toast--${type}`;
 
   const iconMap = {
-    success: "✓",
-    info: "ℹ",
-    warning: "⚠️",
-    error: "✕"
+    success: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`,
+    info: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+    warning: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+    error: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`
   };
-  const icon = iconMap[type] || "ℹ";
 
   const iconEl = document.createElement("div");
   iconEl.className = "qgat-toast__icon";
-  iconEl.textContent = icon;
+  iconEl.innerHTML = iconMap[type] || iconMap.info;
 
   const contentEl = document.createElement("div");
   contentEl.className = "qgat-toast__content";
@@ -1766,9 +1800,9 @@ function copyCitation(toolKey, btnEl) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
       if (btnEl) {
-        const orig = btnEl.textContent;
-        btnEl.textContent = "✓ Citation Copied!";
-        setTimeout(() => { btnEl.textContent = orig; }, 2000);
+        const orig = btnEl.innerHTML;
+        btnEl.innerHTML = `<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> <span>Citation Copied!</span>`;
+        setTimeout(() => { btnEl.innerHTML = orig; }, 2000);
       }
       showToast("Citation Copied", "Manuscript citation copied to clipboard.", "success", 3000);
     }).catch(() => {
@@ -2323,7 +2357,7 @@ function init() {
           contentEl.innerHTML = `
             <div class="genome-tooltip__row"><span>Location</span><span>${found.chr || 'Chr14'}: ${found.start.toLocaleString()}–${found.end.toLocaleString()}</span></div>
             <div class="genome-tooltip__row"><span>Width</span><span>${(found.end - found.start + 1).toLocaleString()} bp</span></div>
-            <div class="genome-tooltip__row"><span>Candidate</span><span>${found.candidate ? 'Yes ★' : 'No'}</span></div>
+            <div class="genome-tooltip__row"><span>Candidate</span><span>${found.candidate ? 'Yes (Candidate)' : 'No'}</span></div>
           `;
         }
         tooltip.style.left = (e.clientX + 12) + "px";
@@ -2399,9 +2433,9 @@ function init() {
       const list = getOntologyGeneSymbols();
       if (!list.length) return;
       navigator.clipboard.writeText(list.join(" ")).then(() => {
-        const orig = btnCopySymbols.textContent;
-        btnCopySymbols.textContent = "✓ Symbols Copied!";
-        setTimeout(() => { btnCopySymbols.textContent = orig; }, 2000);
+        const orig = btnCopySymbols.innerHTML;
+        btnCopySymbols.innerHTML = `<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> <span>Symbols Copied!</span>`;
+        setTimeout(() => { btnCopySymbols.innerHTML = orig; }, 2000);
       });
     });
   }
@@ -2415,9 +2449,9 @@ function init() {
         return found ? found.id : s;
       });
       navigator.clipboard.writeText(ids.join("\n")).then(() => {
-        const orig = btnCopyEnsembl.textContent;
-        btnCopyEnsembl.textContent = "✓ Ensembl IDs Copied!";
-        setTimeout(() => { btnCopyEnsembl.textContent = orig; }, 2000);
+        const orig = btnCopyEnsembl.innerHTML;
+        btnCopyEnsembl.innerHTML = `<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> <span>Ensembl IDs Copied!</span>`;
+        setTimeout(() => { btnCopyEnsembl.innerHTML = orig; }, 2000);
       });
     });
   }
