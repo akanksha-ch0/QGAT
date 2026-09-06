@@ -418,13 +418,39 @@ const state = {
   geneFormat: "range",
   qtlFormat: "range",
   combinedFormat: "range",
+  hasResults: false,
   resultsLoaded: false,
+  resultsGenes: [],
+  resultsQTLs: [],
   genomeZoom: 1,
   genomePan: 0,
   hoveredGene: null,
   ontologyGenes: [],
   ontologySpecies: "btaurus"
 };
+
+function renderEmptyResults() {
+  const banner = document.getElementById("resultsEmptyBanner");
+  if (banner) banner.style.display = "block";
+
+  populateGenesTable([]);
+  populateQTLsTable([]);
+  populateCandidateCards([]);
+  drawGenomeBrowser();
+
+  const badgeG = document.getElementById("genesCountBadge");
+  if (badgeG) badgeG.textContent = "0";
+  const badgeQ = document.getElementById("qtlsCountBadge");
+  if (badgeQ) badgeQ.textContent = "0";
+
+  ["statTotalGenes", "statCodingGenes", "statGtfFeatures", "statCandidateGenes", "statTotalQTLs", "statQtlTraits"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.dataset.count = "0";
+      el.textContent = "0";
+    }
+  });
+}
 
 // ============================================================
 //   ROUTING
@@ -462,13 +488,18 @@ function navigateTo(page) {
   }
 
   // Trigger results animations if navigating to results
-  if (page === "results" && !state.resultsLoaded) {
-    state.resultsLoaded = true;
-    setTimeout(animateResults, 300);
-  }
-
   if (page === "results") {
-    setTimeout(() => drawGenomeBrowser(), 100);
+    if (state.hasResults) {
+      const banner = document.getElementById("resultsEmptyBanner");
+      if (banner) banner.style.display = "none";
+      if (!state.resultsLoaded) {
+        state.resultsLoaded = true;
+        setTimeout(animateResults, 300);
+      }
+      setTimeout(() => drawGenomeBrowser(), 100);
+    } else {
+      renderEmptyResults();
+    }
   }
 
   if (page === "ontology") {
@@ -720,6 +751,15 @@ function drawGenomeBrowser() {
   // Background
   ctx.fillStyle = "#0a1628";
   ctx.fillRect(0, 0, W, H);
+
+  // If no results loaded yet, draw placeholder
+  if (!state.hasResults) {
+    ctx.fillStyle = "rgba(148, 163, 184, 0.75)";
+    ctx.font = "14px 'Inter', system-ui, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("No active genomic tracks — Run an annotation or click 'Load Example Dataset'.", W / 2, H / 2);
+    return;
+  }
 
   // Grid lines
   const gridInterval = Math.pow(10, Math.floor(Math.log10((viewEnd - viewStart) / 10)));
@@ -997,10 +1037,35 @@ function switchResultsTab(tabName) {
 
 // ---- Populate List of Genes Table ----
 function populateGenesTable(genesToDisplay) {
-  const genes = genesToDisplay || MOCK_GENES;
   const tbody = document.getElementById("genesTableBody");
   if (!tbody) return;
   tbody.innerHTML = "";
+
+  const genes = (genesToDisplay !== undefined)
+    ? genesToDisplay
+    : (state.hasResults ? (state.resultsGenes && state.resultsGenes.length ? state.resultsGenes : MOCK_GENES) : []);
+
+  if (!genes.length) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td colspan="10" style="text-align:center; padding:3rem 1rem; color:var(--text-secondary);">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">🧬</div>
+        <div style="font-weight:600; font-size:1rem; color:var(--navy); margin-bottom:0.3rem;">No Genes Loaded</div>
+        <div style="font-size:0.88rem;">Run an annotation from the Workspace or click <button type="button" class="btn btn--sm btn--primary load-example-trigger" style="margin-left:6px; padding:3px 10px; font-size:0.75rem;">Load Example Dataset</button></div>
+      </td>
+    `;
+    const btn = tr.querySelector(".load-example-trigger");
+    if (btn) btn.addEventListener("click", () => loadExampleDataset("results"));
+    tbody.appendChild(tr);
+
+    const countBadge = document.getElementById("genesCountBadge");
+    if (countBadge) countBadge.textContent = "0";
+    const totalEl = document.getElementById("totalGenesCount");
+    if (totalEl) totalEl.textContent = "0";
+    const showingEl = document.getElementById("showingGenesCount");
+    if (showingEl) showingEl.textContent = "0";
+    return;
+  }
 
   genes.forEach(gene => {
     const tr = document.createElement("tr");
@@ -1030,14 +1095,41 @@ function populateGenesTable(genesToDisplay) {
 
 // ---- Populate List of QTLs Table ----
 function populateQTLsTable(qtlsToDisplay) {
-  const qtls = qtlsToDisplay || (
-    state.selectedAnimal
-      ? MOCK_QTLS.filter(q => q.species === state.selectedAnimal).concat(MOCK_QTLS.filter(q => q.species !== state.selectedAnimal))
-      : MOCK_QTLS
-  );
   const tbody = document.getElementById("qtlsTableBody");
   if (!tbody) return;
   tbody.innerHTML = "";
+
+  const qtls = (qtlsToDisplay !== undefined)
+    ? qtlsToDisplay
+    : (state.hasResults
+        ? (state.resultsQTLs && state.resultsQTLs.length
+            ? state.resultsQTLs
+            : (state.selectedAnimal
+                ? MOCK_QTLS.filter(q => q.species === state.selectedAnimal).concat(MOCK_QTLS.filter(q => q.species !== state.selectedAnimal))
+                : MOCK_QTLS))
+        : []);
+
+  if (!qtls.length) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td colspan="9" style="text-align:center; padding:3rem 1rem; color:var(--text-secondary);">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">📍</div>
+        <div style="font-weight:600; font-size:1rem; color:var(--navy); margin-bottom:0.3rem;">No QTLs Loaded</div>
+        <div style="font-size:0.88rem;">Run an Animal QTLdb query from the Workspace or click <button type="button" class="btn btn--sm btn--primary load-example-trigger" style="margin-left:6px; padding:3px 10px; font-size:0.75rem;">Load Example Dataset</button></div>
+      </td>
+    `;
+    const btn = tr.querySelector(".load-example-trigger");
+    if (btn) btn.addEventListener("click", () => loadExampleDataset("results"));
+    tbody.appendChild(tr);
+
+    const countBadge = document.getElementById("qtlsCountBadge");
+    if (countBadge) countBadge.textContent = "0";
+    const totalEl = document.getElementById("totalQTLsCount");
+    if (totalEl) totalEl.textContent = "0";
+    const showingEl = document.getElementById("showingQTLsCount");
+    if (showingEl) showingEl.textContent = "0";
+    return;
+  }
 
   qtls.forEach(qtl => {
     const tr = document.createElement("tr");
@@ -1075,11 +1167,23 @@ function populateQTLsTable(qtlsToDisplay) {
   }
 }
 
-function populateCandidateCards() {
+function populateCandidateCards(candidatesToDisplay) {
   const grid = document.getElementById("candidatesGrid");
   if (!grid) return;
   grid.innerHTML = "";
-  const candidates = MOCK_GENES.filter(g => g.score >= 75).slice(0, 6);
+
+  if (!state.hasResults) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem 1rem; background: var(--bg-surface); border: 1px dashed var(--border); border-radius: var(--radius); color: var(--text-secondary);">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+        <div style="font-weight: 600; color: var(--navy); margin-bottom: 0.3rem;">No Candidate Genes Identified Yet</div>
+        <div style="font-size: 0.88rem;">Candidate prioritization scores will appear here once an analysis is executed or example data is loaded.</div>
+      </div>
+    `;
+    return;
+  }
+
+  const candidates = candidatesToDisplay || MOCK_GENES.filter(g => g.score >= 75).slice(0, 6);
   candidates.forEach(gene => {
     const circumference = 2 * Math.PI * 17;
     const offset = circumference - (gene.score / 100) * circumference;
@@ -1468,8 +1572,8 @@ function getOntologyGeneSymbols() {
   const textarea = document.getElementById("ontologyGenesTextarea");
   if (!textarea || !textarea.value.trim()) {
     return (state.ontologyGenes && state.ontologyGenes.length)
-      ? state.ontologyGenes.map(g => g.symbol)
-      : MOCK_GENES.map(g => g.symbol);
+      ? state.ontologyGenes.map(g => (typeof g === "string" ? g : g.symbol))
+      : [];
   }
   return textarea.value.trim().split(/[\s,;\n\t]+/).filter(Boolean);
 }
@@ -1478,11 +1582,8 @@ function updateOntologyView() {
   const textarea = document.getElementById("ontologyGenesTextarea");
   const countBadge = document.getElementById("ontologyGeneCountBadge");
 
-  if (textarea && (!textarea.value || textarea.value.trim() === "")) {
-    const genes = (state.ontologyGenes && state.ontologyGenes.length)
-      ? state.ontologyGenes
-      : MOCK_GENES;
-    textarea.value = genes.map(g => g.symbol).join(" ");
+  if (textarea && state.ontologyGenes && state.ontologyGenes.length && !textarea.value.trim()) {
+    textarea.value = state.ontologyGenes.map(g => (typeof g === "string" ? g : g.symbol)).join(" ");
   }
 
   if (countBadge) {
@@ -1555,7 +1656,8 @@ function showToast(title, message, type = "info", duration = 6000) {
 function launchGProfiler(e) {
   const genes = getOntologyGeneSymbols();
   if (!genes.length) {
-    showToast("No Genes Found", "Please enter or load at least one gene symbol first.", "warning", 5000);
+    showToast("No Genes Found", "Please enter gene symbols above or click 'Load Example Gene Set' first.", "warning", 5000);
+    if (e && e.preventDefault) e.preventDefault();
     return;
   }
   const spKey = (state.selectedAnimal || "cattle").toLowerCase();
@@ -1579,26 +1681,22 @@ function launchGProfiler(e) {
 
 function launchDAVID(e) {
   const genes = getOntologyGeneSymbols();
+  if (!genes.length) {
+    showToast("No Genes Found", "Please enter gene symbols above or click 'Load Example Gene Set' first.", "warning", 5000);
+    if (e && e.preventDefault) e.preventDefault();
+    return;
+  }
   const davidUrl = "https://davidbioinformatics.nih.gov/summary.jsp";
 
-  if (genes.length) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
-    }
-    showToast(
-      `Copied ${genes.length} Genes to Clipboard!`,
-      "Opening DAVID Portal... In DAVID: 1. Paste in Box 1 (Gene List) → 2. Select 'OFFICIAL_GENE_SYMBOL' → 3. Select 'Gene List' & click Submit List.",
-      "success",
-      8000
-    );
-  } else {
-    showToast(
-      "Opening DAVID Portal...",
-      "Tip: Enter or load candidate gene symbols to analyze enrichment in DAVID.",
-      "info",
-      5000
-    );
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
   }
+  showToast(
+    `Copied ${genes.length} Genes to Clipboard!`,
+    "Opening DAVID Portal... In DAVID: 1. Paste in Box 1 (Gene List) → 2. Select 'OFFICIAL_GENE_SYMBOL' → 3. Select 'Gene List' & click Submit List.",
+    "success",
+    8000
+  );
 
   if (!e || !e.currentTarget || e.currentTarget.tagName !== "A") {
     const win = window.open(davidUrl, "_blank");
@@ -1610,26 +1708,22 @@ function launchDAVID(e) {
 
 function launchPanther(e) {
   const genes = getOntologyGeneSymbols();
+  if (!genes.length) {
+    showToast("No Genes Found", "Please enter gene symbols above or click 'Load Example Gene Set' first.", "warning", 5000);
+    if (e && e.preventDefault) e.preventDefault();
+    return;
+  }
   const pantherUrl = "https://www.pantherdb.org/tools/compareToRefList.jsp";
 
-  if (genes.length) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
-    }
-    showToast(
-      `Copied ${genes.length} Genes to Clipboard!`,
-      "Opening PANTHER... Paste your gene symbols into the query box and select your organism.",
-      "success",
-      7000
-    );
-  } else {
-    showToast(
-      "Opening PANTHER...",
-      "Paste your candidate genes and select your species for overrepresentation analysis.",
-      "info",
-      5000
-    );
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
   }
+  showToast(
+    `Copied ${genes.length} Genes to Clipboard!`,
+    "Opening PANTHER... Paste your gene symbols into the query box and select your organism.",
+    "success",
+    7000
+  );
 
   if (!e || !e.currentTarget || e.currentTarget.tagName !== "A") {
     const win = window.open(pantherUrl, "_blank");
@@ -1641,26 +1735,22 @@ function launchPanther(e) {
 
 function launchShinyGO(e) {
   const genes = getOntologyGeneSymbols();
+  if (!genes.length) {
+    showToast("No Genes Found", "Please enter gene symbols above or click 'Load Example Gene Set' first.", "warning", 5000);
+    if (e && e.preventDefault) e.preventDefault();
+    return;
+  }
   const shinyGoUrl = "https://bioinformatics.sdstate.edu/go/";
 
-  if (genes.length) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
-    }
-    showToast(
-      `Copied ${genes.length} Genes to Clipboard!`,
-      "Opening ShinyGO v0.80... Paste your gene symbols and select your species for interactive graphs.",
-      "success",
-      7000
-    );
-  } else {
-    showToast(
-      "Opening ShinyGO v0.80...",
-      "Paste your candidate gene list and explore interactive enrichment diagrams.",
-      "info",
-      5000
-    );
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(genes.join("\n")).catch(() => {});
   }
+  showToast(
+    `Copied ${genes.length} Genes to Clipboard!`,
+    "Opening ShinyGO v0.80... Paste your gene symbols and select your species for interactive graphs.",
+    "success",
+    7000
+  );
 
   if (!e || !e.currentTarget || e.currentTarget.tagName !== "A") {
     const win = window.open(shinyGoUrl, "_blank");
@@ -1913,25 +2003,69 @@ function init() {
     });
   }
 
-  function loadGlobalExample() {
+  function loadExampleDataset(targetSection = "results") {
+    state.hasResults = true;
+    state.resultsLoaded = false;
+    state.resultsGenes = MOCK_GENES.slice();
+    state.resultsQTLs = MOCK_QTLS.slice();
+    state.ontologyGenes = MOCK_GENES.slice();
+
     const geneInput = document.getElementById("geneCoordsInput");
-    if (geneInput) {
-      geneInput.value = "14\t1790000\t1820000\n6\t37900000\t38100000\n2\t6440000\t6460000\n20\t31880000\t32180000\n26\t21140000\t21170000";
-    }
+    if (geneInput) geneInput.value = "14\t1790000\t1820000\n6\t37900000\t38100000\n2\t6440000\t6460000\n20\t31880000\t32180000\n26\t21140000\t21170000";
     const qtlInput = document.getElementById("qtlCoordsInput");
-    if (qtlInput) {
-      qtlInput.value = "14\t1750000\t1850000\n6\t37900000\t38200000\n2\t6400000\t6500000\n20\t31800000\t32200000\n26\t21100000\t21200000";
-    }
+    if (qtlInput) qtlInput.value = "14\t1750000\t1850000\n6\t37900000\t38200000\n2\t6400000\t6500000\n20\t31800000\t32200000\n26\t21100000\t21200000";
     const combInput = document.getElementById("combinedCoordsInput");
-    if (combInput) {
-      combInput.value = "14\t1750000\t1850000\n6\t37900000\t38200000\n2\t6400000\t6500000\n20\t31800000\t32200000";
+    if (combInput) combInput.value = "14\t1750000\t1850000\n6\t37900000\t38200000\n2\t6400000\t6500000\n20\t31800000\t32200000";
+
+    const banner = document.getElementById("resultsEmptyBanner");
+    if (banner) banner.style.display = "none";
+
+    populateGenesTable(MOCK_GENES);
+    populateQTLsTable();
+    populateCandidateCards();
+    drawGenomeBrowser();
+
+    const statMap = {
+      statTotalGenes: 12,
+      statCodingGenes: 10,
+      statGtfFeatures: 2,
+      statCandidateGenes: 4,
+      statTotalQTLs: 8,
+      statQtlTraits: 6
+    };
+    Object.entries(statMap).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.dataset.count = val;
+        el.textContent = val;
+      }
+    });
+
+    const ta = document.getElementById("ontologyGenesTextarea");
+    if (ta) ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
+    updateOntologyView();
+
+    showToast(
+      "Example Dataset Loaded",
+      "Loaded bovine chromosome 14 & multi-trait QTL example dataset across Results and Gene Ontology.",
+      "success",
+      4000
+    );
+
+    if (targetSection) {
+      navigateTo(targetSection);
+      if (targetSection === "results") {
+        setTimeout(animateResults, 200);
+      }
     }
-    navigateTo("annotate");
   }
+
   const globalExBtn = document.getElementById("loadExampleBtn");
-  if (globalExBtn) globalExBtn.addEventListener("click", loadGlobalExample);
+  if (globalExBtn) globalExBtn.addEventListener("click", () => loadExampleDataset("results"));
   const heroExBtn = document.getElementById("heroExampleBtn");
-  if (heroExBtn) heroExBtn.addEventListener("click", loadGlobalExample);
+  if (heroExBtn) heroExBtn.addEventListener("click", () => loadExampleDataset("results"));
+  const btnLoadExampleInResults = document.getElementById("btnLoadExampleInResults");
+  if (btnLoadExampleInResults) btnLoadExampleInResults.addEventListener("click", () => loadExampleDataset("results"));
 
   // ---- File uploads setup ----
   function setupUpload(zoneId, inputId, infoId, nameId) {
@@ -1973,9 +2107,21 @@ function init() {
           input.value = "14\t1790000\t1820000\n6\t37900000\t38100000\n2\t6440000\t6460000\n20\t31880000\t32180000\n26\t21140000\t21170000";
         }
       }
-      state.activeResultsTab = "genes";
+      state.hasResults = true;
       state.resultsLoaded = false;
+      state.resultsGenes = MOCK_GENES.slice();
+      state.resultsQTLs = MOCK_QTLS.slice();
+      state.ontologyGenes = MOCK_GENES.slice();
+      state.activeResultsTab = "genes";
       await runProcessingAnimation();
+      const banner = document.getElementById("resultsEmptyBanner");
+      if (banner) banner.style.display = "none";
+      populateGenesTable(MOCK_GENES);
+      populateQTLsTable();
+      populateCandidateCards();
+      const ta = document.getElementById("ontologyGenesTextarea");
+      if (ta) ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
+      updateOntologyView();
       navigateTo("results");
       switchResultsTab("genes");
     });
@@ -1991,9 +2137,21 @@ function init() {
       if (input && !input.value.trim()) {
         input.value = (state.qtlFormat === "position") ? preset.pos : preset.range;
       }
-      state.activeResultsTab = "qtls";
+      state.hasResults = true;
       state.resultsLoaded = false;
+      state.resultsGenes = MOCK_GENES.slice();
+      state.resultsQTLs = MOCK_QTLS.slice();
+      state.ontologyGenes = MOCK_GENES.slice();
+      state.activeResultsTab = "qtls";
       await runProcessingAnimation();
+      const banner = document.getElementById("resultsEmptyBanner");
+      if (banner) banner.style.display = "none";
+      populateGenesTable(MOCK_GENES);
+      populateQTLsTable();
+      populateCandidateCards();
+      const ta = document.getElementById("ontologyGenesTextarea");
+      if (ta) ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
+      updateOntologyView();
       navigateTo("results");
       switchResultsTab("qtls");
     });
@@ -2003,9 +2161,21 @@ function init() {
   const runCombined = document.getElementById("runCombinedAnnotation");
   if (runCombined) {
     runCombined.addEventListener("click", async () => {
-      state.activeResultsTab = "genes";
+      state.hasResults = true;
       state.resultsLoaded = false;
+      state.resultsGenes = MOCK_GENES.slice();
+      state.resultsQTLs = MOCK_QTLS.slice();
+      state.ontologyGenes = MOCK_GENES.slice();
+      state.activeResultsTab = "genes";
       await runProcessingAnimation();
+      const banner = document.getElementById("resultsEmptyBanner");
+      if (banner) banner.style.display = "none";
+      populateGenesTable(MOCK_GENES);
+      populateQTLsTable();
+      populateCandidateCards();
+      const ta = document.getElementById("ontologyGenesTextarea");
+      if (ta) ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
+      updateOntologyView();
       navigateTo("results");
       switchResultsTab("genes");
     });
@@ -2261,13 +2431,25 @@ function init() {
     });
   }
 
-  const btnResetCandidateGenes = document.getElementById("btnResetCandidateGenes");
-  if (btnResetCandidateGenes) {
-    btnResetCandidateGenes.addEventListener("click", () => {
-      state.ontologyGenes = (MOCK_GENES || []).slice();
+  const btnLoadOntologyExample = document.getElementById("btnLoadOntologyExample");
+  if (btnLoadOntologyExample) {
+    btnLoadOntologyExample.addEventListener("click", () => {
+      state.ontologyGenes = MOCK_GENES.slice();
       const ta = document.getElementById("ontologyGenesTextarea");
       if (ta) ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
       updateOntologyView();
+      showToast("Example Genes Loaded", "Loaded 12 livestock candidate gene symbols.", "success", 3000);
+    });
+  }
+
+  const btnClearOntologyGenes = document.getElementById("btnClearOntologyGenes");
+  if (btnClearOntologyGenes) {
+    btnClearOntologyGenes.addEventListener("click", () => {
+      state.ontologyGenes = [];
+      const ta = document.getElementById("ontologyGenesTextarea");
+      if (ta) ta.value = "";
+      updateOntologyView();
+      showToast("Cleared", "Candidate gene list has been cleared.", "info", 3000);
     });
   }
 
@@ -2289,14 +2471,16 @@ function init() {
     });
   });
 
-
-
   const btnGoToOntology = document.getElementById("btnGoToOntology");
   if (btnGoToOntology) {
     btnGoToOntology.addEventListener("click", () => {
-      state.ontologyGenes = (MOCK_GENES || []).slice();
+      if (state.hasResults && (!state.ontologyGenes || !state.ontologyGenes.length)) {
+        state.ontologyGenes = (MOCK_GENES || []).slice();
+      }
       const ta = document.getElementById("ontologyGenesTextarea");
-      if (ta) ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
+      if (ta && state.ontologyGenes.length && !ta.value.trim()) {
+        ta.value = state.ontologyGenes.map(g => g.symbol).join(" ");
+      }
       navigateTo("ontology");
     });
   }
@@ -2307,6 +2491,10 @@ function init() {
       drawGenomeBrowser();
     }
   });
+
+  // Initial clean state (empty until user runs or chooses example dataset)
+  renderEmptyResults();
+  updateOntologyView();
 }
 
 // ---- Utility ----

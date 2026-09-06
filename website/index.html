@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QGAT — Quantitative Trait Loci &amp; Gene Annotation Tool</title>
   <meta name="description" content="QGAT: Quantitative Trait Loci and Gene Annotation Tool. Modern, interactive bioinformatics platform for genomic region annotation, Animal QTLdb integration, and candidate gene discovery across livestock species.">
-  <link rel="stylesheet" href="css/style.css?v=2.2">
+  <link rel="stylesheet" href="css/style.css?v=2.3">
 </head>
 <body>
 
@@ -45,7 +45,7 @@
     <div class="hero__content">
       <div class="hero__badge">
         <span class="hero__badge-dot"></span>
-        QGAT v0.2.0 • ICAR-NBAGR
+        QGAT v0.2.0 • Livestock Genomics Platform
       </div>
       <h1 class="hero__title">
         QGAT<br><span>QTL &amp; Gene Annotation Tool</span>
@@ -158,7 +158,7 @@
           <a href="#" data-nav="about">About</a>
           <a href="https://github.com/akanksha-ch0/QGAT" target="_blank">GitHub</a>
         </div>
-        <div>QGAT v0.2.0 • Developed by Akanksha Choudhary et al. (ICAR-NBAGR)</div>
+        <div>QGAT v0.2.0 • Developed by Akanksha Choudhary et al.</div>
       </div>
     </div>
   </footer>
@@ -582,6 +582,9 @@
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn--sm btn--primary" id="btnLoadOntologyExample">
+              🧪 Load Example Gene Set
+            </button>
             <button type="button" class="btn btn--sm btn--outline" id="btnCopySymbols">
               📋 Copy Gene Symbols
             </button>
@@ -591,12 +594,12 @@
             <button type="button" class="btn btn--sm btn--outline" id="btnDownloadGeneList">
               💾 Download Gene List (.txt)
             </button>
-            <button type="button" class="btn btn--sm btn--ghost" id="btnResetCandidateGenes">
-              🔄 Reset to QGAT Candidates
+            <button type="button" class="btn btn--sm btn--ghost" id="btnClearOntologyGenes">
+              ✕ Clear
             </button>
           </div>
           <div id="ontologyGeneCountBadge" class="table-badge table-badge--teal" style="font-size:0.82rem;">
-            12 genes loaded
+            0 genes loaded
           </div>
         </div>
       </div>
@@ -747,15 +750,32 @@
         <p class="section-subtitle">Comprehensive analysis of your genomic regions.</p>
       </div>
 
+      <!-- Results Empty State Banner (visible when no results loaded) -->
+      <div class="results-empty-banner" id="resultsEmptyBanner" style="background: linear-gradient(135deg, rgba(13,148,136,0.06), rgba(99,102,241,0.06)); border: 1px dashed var(--teal); border-radius: var(--radius-lg); padding: 2.5rem 1.5rem; text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📊</div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem;">No Annotation Results Yet</h3>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.25rem; font-size: 0.92rem; line-height: 1.6;">
+          Execute an annotation in the <strong>Workspace</strong> with your custom genomic coordinates, or click below to load the pre-configured <strong>Example Livestock Dataset</strong> to explore genes, Animal QTLdb traits, and tracks.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn btn--primary" id="btnLoadExampleInResults">
+            🧪 Load Example Dataset
+          </button>
+          <button type="button" class="btn btn--outline" data-nav="annotate">
+            Open Annotate Workspace →
+          </button>
+        </div>
+      </div>
+
       <!-- Results Sub-Navigation Tabs -->
       <div class="results-nav">
         <button type="button" class="results-nav-btn active" id="tabBtnGenes" data-results-tab="genes">
           <span>🧬</span> List of Genes
-          <span class="results-nav-badge" id="genesCountBadge">12</span>
+          <span class="results-nav-badge" id="genesCountBadge">0</span>
         </button>
         <button type="button" class="results-nav-btn" id="tabBtnQTLs" data-results-tab="qtls">
           <span>📍</span> List of QTLs (Animal QTLdb)
-          <span class="results-nav-badge" id="qtlsCountBadge">8</span>
+          <span class="results-nav-badge" id="qtlsCountBadge">0</span>
         </button>
         <button type="button" class="results-nav-btn" id="tabBtnBrowser" data-results-tab="browser">
           <span>🗺️</span> Interactive Genome Tracks
@@ -771,25 +791,25 @@
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--teal"></div>
             <div class="summary-card__icon">🧬</div>
-            <div class="summary-card__value" id="statTotalGenes" data-count="12">0</div>
+            <div class="summary-card__value" id="statTotalGenes" data-count="0">0</div>
             <div class="summary-card__label">Genes Identified</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--green"></div>
             <div class="summary-card__icon">🔬</div>
-            <div class="summary-card__value" id="statCodingGenes" data-count="10">0</div>
+            <div class="summary-card__value" id="statCodingGenes" data-count="0">0</div>
             <div class="summary-card__label">Protein Coding</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--purple"></div>
             <div class="summary-card__icon">📜</div>
-            <div class="summary-card__value" id="statGtfFeatures" data-count="2">0</div>
+            <div class="summary-card__value" id="statGtfFeatures" data-count="0">0</div>
             <div class="summary-card__label">lncRNA / Non-coding</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--amber"></div>
             <div class="summary-card__icon">🎯</div>
-            <div class="summary-card__value" id="statCandidateGenes" data-count="4">0</div>
+            <div class="summary-card__value" id="statCandidateGenes" data-count="0">0</div>
             <div class="summary-card__label">Key Candidate Genes</div>
           </div>
         </div>
@@ -829,7 +849,7 @@
             </table>
           </div>
           <div class="table-pagination">
-            <span>Showing <strong id="showingGenesCount">1–12</strong> of <strong id="totalGenesCount">12</strong> genes</span>
+            <span>Showing <strong id="showingGenesCount">0</strong> of <strong id="totalGenesCount">0</strong> genes</span>
           </div>
         </div>
       </div>
@@ -843,13 +863,13 @@
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--purple"></div>
             <div class="summary-card__icon">📍</div>
-            <div class="summary-card__value" id="statTotalQTLs" data-count="8">0</div>
+            <div class="summary-card__value" id="statTotalQTLs" data-count="0">0</div>
             <div class="summary-card__label">Overlapping QTLs</div>
           </div>
           <div class="summary-card">
             <div class="summary-card__accent summary-card__accent--sky"></div>
             <div class="summary-card__icon">🏷️</div>
-            <div class="summary-card__value" id="statQtlTraits" data-count="6">0</div>
+            <div class="summary-card__value" id="statQtlTraits" data-count="0">0</div>
             <div class="summary-card__label">Trait Classes</div>
           </div>
           <div class="summary-card">
@@ -899,7 +919,7 @@
             </table>
           </div>
           <div class="table-pagination">
-            <span>Showing <strong id="showingQTLsCount">1–8</strong> of <strong id="totalQTLsCount">8</strong> QTLs</span>
+            <span>Showing <strong id="showingQTLsCount">0</strong> of <strong id="totalQTLsCount">0</strong> QTLs</span>
           </div>
         </div>
       </div>
@@ -1147,7 +1167,7 @@ ICAR - National Bureau of Animal Genetic Resources (NBAGR), Karnal, India.</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
-<script src="js/app.js?v=2.2"></script>
+<script src="js/app.js?v=2.3"></script>
 
 </body>
 </html>
