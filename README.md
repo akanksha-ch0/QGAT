@@ -11,11 +11,11 @@ Features
 - Support for both BED-based and GFF-based QTL lookup (`-trait` flag).
 - Gene annotation using user-supplied GTF files.
 - Support for both Ensembl and NCBI GTF formats.
-- **NEW: `--window` flag** — use position-only input (chr + position) by specifying a window size.
-- **NEW: Flexible input parsing** — auto-detects column names (case-insensitive), file separators (TSV/CSV), and handles Excel BOM.
-- **NEW: `--feature` filter** — restrict annotation to specific GTF feature types (e.g., `gene` only).
-- **NEW: `--upstream` / `--downstream`** — extend search beyond exact region boundaries.
-- **NEW: Overlap statistics** — overlap_bp, overlap_pct, distance_to_tss in output.
+- `--window` flag** — use position-only input (chr + position) by specifying a window size.
+- Flexible input parsing** — auto-detects column names (case-insensitive), file separators (TSV/CSV), and handles Excel BOM.
+- `--feature` filter** — restrict annotation to specific GTF feature types (e.g., `gene` only).
+- `--upstream` / `--downstream`** — extend search beyond exact region boundaries.
+- Overlap statistics** — overlap_bp, overlap_pct, distance_to_tss in output.
 - Automatic GTF sorting and formatting.
 - Trait-wise bar plot generation.
 - Clean tabular output and summary report.
