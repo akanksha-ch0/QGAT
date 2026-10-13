@@ -11,7 +11,7 @@ setup(
         "QGAT": [
             "QTLdb/*.bed.gz",      # Include all .bed QTLdb files
             "QTLdb/*.gff",      # Include all .gff QTLdb files
-            "QTLdb/*.gff.gz",   # ✅ NEW: Include compressed .gff.gz files too
+            "QTLdb/*.gff.gz",   # Include compressed .gff.gz files too
             "input/*",
             "output/*",
         ],

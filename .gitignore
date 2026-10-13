@@ -37,3 +37,6 @@ ENV/
 .idea/
 .vscode/
 *.swp
+
+# R
+.Rhistory

@@ -31,7 +31,7 @@ COLUMN_ALIASES = {
 
 
 def _build_alias_map():
-    """Return a dict mapping every alias (lower-cased) → canonical name."""
+    """Return a dict mapping every alias (lower-cased) -> canonical name."""
     alias_map = {}
     for canonical, aliases in COLUMN_ALIASES.items():
         for alias in aliases:
@@ -284,17 +284,39 @@ def parse_input_regions(input_path, window=0):
 
 
 # ---------------------------------------------------------------------------
-# QTL input parser — uses the new smart parser but adds Chr. prefix for QTLdb
+# QTL input parser — smart parser with adaptive chromosome alignment
 # ---------------------------------------------------------------------------
-def parse_input_regions_qtl(input_path, window=0):
+def parse_input_regions_qtl(input_path, window=0, qtl_df=None):
     """
     Parse input regions for the QTL subcommand.
-    Adds the 'Chr.' prefix required by QTLdb BED/GFF files.
+    Automatically aligns chromosome formatting (e.g. 'Chr.1', 'chr1', '1')
+    to match the underlying QTL database conventions.
     """
     df = parse_input_regions(input_path, window=window)
-    df["chromosome"] = df["chromosome"].apply(
-        lambda x: f"Chr.{x}" if not str(x).startswith("Chr.") else x
-    )
+    df["chromosome"] = df["chromosome"].astype(str).str.strip()
+
+    if qtl_df is not None and not qtl_df.empty:
+        sample_qtl_chrs = [str(c).strip() for c in qtl_df["chromosome"].dropna().unique()[:30]]
+        has_chr_dot = any(c.startswith("Chr.") for c in sample_qtl_chrs)
+        has_chr_lower = any(c.lower().startswith("chr") and not c.startswith("Chr.") for c in sample_qtl_chrs)
+
+        if has_chr_dot:
+            df["chromosome"] = df["chromosome"].apply(
+                lambda x: f"Chr.{x}" if not str(x).startswith("Chr.") else str(x)
+            )
+        elif has_chr_lower:
+            df["chromosome"] = df["chromosome"].apply(
+                lambda x: f"chr{x}" if not str(x).lower().startswith("chr") else str(x)
+            )
+        else:
+            # Custom DB uses plain numeric or accession style
+            df["chromosome"] = df["chromosome"].apply(
+                lambda x: re.sub(r"^(Chr\.|chr|CHR)", "", str(x))
+            )
+    else:
+        df["chromosome"] = df["chromosome"].apply(
+            lambda x: f"Chr.{x}" if not str(x).startswith("Chr.") else str(x)
+        )
     return df
 
 
@@ -426,18 +448,27 @@ def find_overlapping_qtls(input_df, qtl_df):
     """Find overlapping QTLs between input regions and QTL database."""
     results = []
 
+    # Prepare normalized chromosome identifiers for matching robustness
+    def _norm(c):
+        return re.sub(r"^(Chr\.|chr|CHR|\bchr\b)", "", str(c).strip())
+
+    input_df = input_df.copy()
+    qtl_df = qtl_df.copy()
+    input_df["_norm_c"] = input_df["chromosome"].apply(_norm)
+    qtl_df["_norm_c"] = qtl_df["chromosome"].apply(_norm)
+
     total = len(input_df)
     for idx, (_, region) in enumerate(input_df.iterrows(), 1):
         if total > 100 and idx % 500 == 0:
             print(f"  [Progress] Processed {idx:,}/{total:,} regions...")
 
+        # Match primarily on exact chromosome or normalized chromosome
         overlaps = qtl_df[
-            (qtl_df['chromosome'] == region['chromosome']) &
+            ((qtl_df['chromosome'] == region['chromosome']) | (qtl_df['_norm_c'] == region['_norm_c'])) &
             (qtl_df['qtl_end'] >= region['start']) &
             (qtl_df['qtl_start'] <= region['end'])
         ]
         for _, qtl in overlaps.iterrows():
-            # Calculate overlap statistics
             overlap_start = max(region['start'], qtl['qtl_start'])
             overlap_end = min(region['end'], qtl['qtl_end'])
             overlap_bp = max(0, overlap_end - overlap_start + 1)
@@ -456,7 +487,7 @@ def find_overlapping_qtls(input_df, qtl_df):
                 'overlap_pct': overlap_pct,
             }
             for col in qtl.index:
-                if col not in result:
+                if col not in result and not col.startswith("_norm"):
                     result[col] = qtl[col]
             results.append(result)
 
@@ -464,15 +495,16 @@ def find_overlapping_qtls(input_df, qtl_df):
         # Diagnostic: check chromosome name mismatch
         input_chrs = set(input_df["chromosome"].unique())
         qtl_chrs = set(qtl_df["chromosome"].unique())
-        common = input_chrs & qtl_chrs
+        norm_input = set(input_df["_norm_c"].unique())
+        norm_qtl = set(qtl_df["_norm_c"].unique())
+        common = norm_input & norm_qtl
         if not common:
             print(
                 f"\n  [Warning] No overlapping QTLs found AND no matching chromosome names.\n"
                 f"    Input chromosomes: {sorted(input_chrs)[:10]}\n"
                 f"    QTL DB chromosomes: {sorted(qtl_chrs)[:10]}\n"
                 f"    Possible cause: chromosome naming mismatch.\n"
-                f"    The QTL database uses 'Chr.X' format. Your input names are auto-prefixed,\n"
-                f"    but if you used full NCBI accessions, they won't match."
+                f"    Ensure your coordinates share chromosome identifiers with the QTL database."
             )
 
     return pd.DataFrame(results)

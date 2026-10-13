@@ -13,15 +13,24 @@ from QGAT.annotate import sort_and_load_gtf, annotate_regions
 
 def open_auto(path):
     """
-    Open a file, using .gz if needed. Always latin-1 for text.
+    Open a file, properly decompressing .gz if the path ends in .gz
+    or if only the .gz version exists on disk. Always latin-1 for text.
     """
-    if path.exists():
-        return open(path, 'r', encoding='latin-1')
-    gz_path = str(path) + ".gz"
-    if os.path.exists(gz_path):
+    p = Path(path)
+    if str(p).endswith('.gz'):
+        if p.exists():
+            return gzip.open(p, 'rt', encoding='latin-1')
+        raise FileNotFoundError(f"Compressed file not found: {p}")
+
+    if p.exists():
+        return open(p, 'r', encoding='latin-1')
+
+    gz_path = Path(str(p) + ".gz")
+    if gz_path.exists():
         print(f"  [File] Opening compressed file: {gz_path}")
         return gzip.open(gz_path, 'rt', encoding='latin-1')
-    raise FileNotFoundError(f"Neither {path} nor {gz_path} found.")
+
+    raise FileNotFoundError(f"Neither {p} nor {gz_path} found.")
 
 
 def clean_qtl_name(name):
@@ -54,26 +63,58 @@ def run_qtl(args):
         "pig": "QTLdb_pigMARC1.gff"
     }
 
-    print(f"\n  [QTL] Species: {args.species}")
-    print(f"  [QTL] Mode: {'GFF (trait-level)' if args.trait else 'BED (standard)'}")
+    custom_db = getattr(args, "custom_db", None) or getattr(args, "db", None)
 
-    # Use the new smart input parser with QTL-specific Chr. prefixing
+    if not args.species and not custom_db:
+        raise ValueError(
+            "Missing database source. You must specify EITHER:\n"
+            "  (a) -species <cattle|pig|chicken|goat|sheep|horse> (for bundled Animal QTLdb)\n"
+            "  (b) -db <path_to_file.bed|.gff> (to upload or supply your own custom QTL database)"
+        )
+
+    # 1. Load Database
+    if custom_db:
+        custom_path = Path(custom_db)
+        if not custom_path.exists():
+            gz_path = Path(str(custom_path) + ".gz")
+            if gz_path.exists():
+                custom_path = gz_path
+            else:
+                raise FileNotFoundError(f"Custom QTL database file not found: {custom_db}")
+
+        species_label = f"Custom ({custom_path.name})"
+        is_gff = args.trait or ".gff" in custom_path.name.lower()
+        print(f"\n  [QTL] Mode: Custom Database -> {custom_path}")
+        print(f"  [QTL] Format: {'GFF (trait-level)' if is_gff else 'BED (standard)'}")
+
+        if is_gff:
+            with open_auto(custom_path) as gff_file:
+                qtl_df = utils.parse_qtl_gff(gff_file)
+        else:
+            with open_auto(custom_path) as bed_file:
+                qtl_df = utils.parse_qtl_bed(bed_file)
+    else:
+        species_label = args.species
+        print(f"\n  [QTL] Species: {args.species}")
+        print(f"  [QTL] Mode: {'GFF (trait-level)' if args.trait else 'BED (standard)'}")
+
+        if args.trait:
+            gff_path = qtl_dir / gff_files[args.species]
+            with open_auto(gff_path) as gff_file:
+                qtl_df = utils.parse_qtl_gff(gff_file)
+        else:
+            bed_path = qtl_dir / bed_files[args.species]
+            with open_auto(bed_path) as bed_file:
+                qtl_df = utils.parse_qtl_bed(bed_file)
+
+    print(f"  [QTL] Database loaded: {len(qtl_df):,} QTL entries")
+
+    # 2. Parse input regions with smart chromosome alignment
     window = getattr(args, "window", 0) or 0
     if window > 0:
         print(f"  [QTL] Window: +/- {window:,} bp")
 
-    input_df = utils.parse_input_regions_qtl(args.input, window=window)
-
-    if args.trait:
-        gff_path = qtl_dir / gff_files[args.species]
-        with open_auto(gff_path) as gff_file:
-            qtl_df = utils.parse_qtl_gff(gff_file)
-    else:
-        bed_path = qtl_dir / bed_files[args.species]
-        with open_auto(bed_path) as bed_file:
-            qtl_df = utils.parse_qtl_bed(bed_file)
-
-    print(f"  [QTL] Database loaded: {len(qtl_df):,} QTL entries")
+    input_df = utils.parse_input_regions_qtl(args.input, window=window, qtl_df=qtl_df)
 
     result_df = utils.find_overlapping_qtls(input_df, qtl_df)
     result_df.to_csv(args.output, sep='\t', index=False)
@@ -81,7 +122,7 @@ def run_qtl(args):
 
     # --- Summary ---------------------------------------------------------
     print("  Summary Report:")
-    print(f"    Species: {args.species}")
+    print(f"    Database: {species_label}")
     print(f"    Total input regions: {len(input_df)}")
     print(f"    Total overlapping QTLs: {len(result_df)}")
 
@@ -89,7 +130,7 @@ def run_qtl(args):
         regions_with_hits = result_df[['chromosome', 'region_start', 'region_end']].drop_duplicates()
         print(f"    Regions with at least 1 QTL: {len(regions_with_hits)}/{len(input_df)}")
 
-        if not args.trait:
+        if not args.trait and 'qtl_name' in result_df.columns:
             result_df["qtl_trait"] = result_df["qtl_name"].apply(clean_qtl_name)
             top_qtls = result_df["qtl_trait"].value_counts().head(10)
             print("    Top 10 QTLs (by trait):")
@@ -187,11 +228,11 @@ def run_annotate(args):
 
 
 # ---------------------------------------------------------------------------
-# Plot subcommand
+# Plot subcommand — Publication-Ready Modern Aesthetics
 # ---------------------------------------------------------------------------
 def run_plot(args):
     if not Path(args.input).exists():
-        raise FileNotFoundError("Input file not found: {}".format(args.input))
+        raise FileNotFoundError(f"Input file not found: {args.input}")
 
     df = pd.read_csv(args.input, sep='\t')
     if df.empty:
@@ -199,24 +240,108 @@ def run_plot(args):
     if 'trait' not in df.columns:
         raise ValueError("Input file must contain a 'trait' column from GFF (3rd column).")
 
+    # Aggregate counts
     trait_counts = df['trait'].value_counts()
+    total_annotations = len(df)
+    unique_traits = len(trait_counts)
 
-    num_traits = len(trait_counts)
-    fig_height = max(6, num_traits * 0.4)
+    # Optional top N filter if user specified or default to top 20 for crisp visualization
+    top_n = getattr(args, "top", None) or 20
+    if len(trait_counts) > top_n:
+        top_counts = trait_counts.head(top_n)
+        other_count = trait_counts.iloc[top_n:].sum()
+        if other_count > 0:
+            top_counts["Other Traits"] = other_count
+        plot_counts = top_counts
+    else:
+        plot_counts = trait_counts
 
-    plt.figure(figsize=(12, fig_height))
-    bars = plt.barh(trait_counts.index[::-1], trait_counts.values[::-1], color='steelblue', edgecolor='black')
+    num_bars = len(plot_counts)
+    fig_height = max(6.0, num_bars * 0.48 + 2.0)
 
-    for bar in bars:
+    # Modern color palette: polished gradient from deep navy/indigo to teal
+    import numpy as np
+    colors = plt.cm.viridis(np.linspace(0.25, 0.85, num_bars))[::-1]
+
+    fig, ax = plt.subplots(figsize=(11, fig_height), dpi=300)
+    fig.patch.set_facecolor("#ffffff")
+    ax.set_facecolor("#fafbfc")
+
+    y_pos = np.arange(num_bars)
+    # Clean formatted labels (replace underscores, title case)
+    clean_labels = [str(l).replace("_", " ").title() for l in plot_counts.index[::-1]]
+    bar_values = plot_counts.values[::-1]
+
+    # Draw bars with slight rounded appearance, crisp borders
+    bars = ax.barh(
+        y_pos, bar_values,
+        color=colors,
+        edgecolor="#ffffff",
+        linewidth=1.2,
+        height=0.68,
+        zorder=3
+    )
+
+    # Despine: clean modern scientific aesthetic
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_color("#94a3b8")
+    ax.spines['bottom'].set_linewidth(1.0)
+
+    # Light subtle vertical grid behind bars
+    ax.grid(axis='x', color="#e2e8f0", linestyle='--', linewidth=0.7, alpha=0.9, zorder=0)
+
+    # Numerical & percentage value annotations right next to each bar
+    max_val = max(bar_values) if len(bar_values) > 0 else 1
+    for i, bar in enumerate(bars):
         width = bar.get_width()
-        plt.text(width + 1, bar.get_y() + bar.get_height() / 2, str(width), va='center', fontsize=8)
+        pct = (width / total_annotations) * 100 if total_annotations > 0 else 0
+        ax.text(
+            width + (max_val * 0.015),
+            bar.get_y() + bar.get_height() / 2,
+            f"{width:,}  ({pct:.1f}%)",
+            va='center',
+            ha='left',
+            fontsize=9.5,
+            fontweight='600',
+            color='#1e293b'
+        )
 
-    plt.xlabel("QTL Count", fontsize=12)
-    plt.ylabel("Trait", fontsize=12)
-    plt.title("QTL Trait Distribution", fontsize=14, weight='bold')
+    # Set axis limits & labels
+    ax.set_xlim(0, max_val * 1.25)
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(clean_labels, fontsize=10.5, fontweight='500', color='#0f172a')
+    ax.tick_params(axis='y', length=0, pad=8)
+    ax.tick_params(axis='x', colors='#475569', labelsize=10)
+
+    # Clear, descriptive typography
+    ax.set_xlabel("Number of Overlapping QTLs", fontsize=11.5, fontweight='600', color='#334155', labelpad=10)
+
+    # Title & Subtitle
+    plt.suptitle(
+        "Distribution of Quantitative Trait Loci (QTLs) by Trait Class",
+        fontsize=14.5,
+        fontweight='700',
+        color='#0f172a',
+        x=0.08,
+        y=0.98,
+        ha='left'
+    )
+    ax.set_title(
+        f"Total Associations: N = {total_annotations:,} | Distinct Trait Categories: {unique_traits:,} | Dataset: {Path(args.input).name}",
+        fontsize=10.0,
+        fontweight='400',
+        color='#64748b',
+        pad=16,
+        loc='left'
+    )
+
     plt.tight_layout()
-    plt.savefig(args.output, dpi=300)
-    print("\n  Trait plot saved to: {}".format(args.output))
+    plt.subplots_adjust(top=0.90)
+    plt.savefig(args.output, dpi=300, facecolor=fig.get_facecolor(), bbox_inches='tight')
+    plt.close()
+    print(f"\n  [Plot] Publication-ready trait distribution saved to: {args.output}")
 
 
 # ---------------------------------------------------------------------------
@@ -269,7 +394,7 @@ Input Format:
 
     # --- QTL subcommand --------------------------------------------------
     qtl_parser = subparsers.add_parser(
-        "qtl", help="Find overlapping QTLs from Animal QTLdb",
+        "qtl", help="Find overlapping QTLs from Animal QTLdb or custom database",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     qtl_parser.add_argument(
@@ -278,9 +403,14 @@ Input Format:
              "Columns: chromosome+start+end OR chromosome+position (with --window)."
     )
     qtl_parser.add_argument(
-        "-species", required=True,
+        "-species", required=False, default=None,
         choices=["cattle", "chicken", "goat", "sheep", "horse", "pig"],
-        help="Animal species"
+        help="Animal species (for pre-bundled Animal QTLdb files)"
+    )
+    qtl_parser.add_argument(
+        "-db", "--db", "--qtl-db", dest="custom_db", default=None,
+        help="Path to custom QTL database file (BED or GFF format, supports .gz). "
+             "Allows uploading or supplying your own QTL database."
     )
     qtl_parser.add_argument("-o", "--output", required=True, help="Output TSV file")
     qtl_parser.add_argument(
@@ -347,6 +477,10 @@ Input Format:
     plot_parser.add_argument(
         "-o", "--output", required=True,
         help="Output plot image file (PNG)"
+    )
+    plot_parser.add_argument(
+        "--top", type=int, default=20,
+        help="Display top N most frequent traits (default: 20, grouping remainder into 'Other Traits')"
     )
 
     args = parser.parse_args()
